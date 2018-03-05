@@ -13,6 +13,21 @@ This repository is a monorepo that we manage using [Lerna](https://github.com/le
 | Package                                                | Version                                                                                                                                   | Docs                                                                                                                                                                                                                                                                          | Description                                                                        |
 | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | [`optimizely-sdk-core`](/packages/optimizely-sdk-core)               | [![npm](https://img.shields.io/npm/v/optimizely-sdk-core.svg?style=flat-square)](https://npmjs.com/package/@optimizely/optimizely-sdk-core)                     | [![](https://img.shields.io/badge/API%20Docs-site-green.svg?style=flat-square)](https://developers.optimizely.com/x/solutions/sdks/reference/?language=javascript)           | The core of Optimizely SDK                                                                                                  |
+| [`optimizely-sdk`](/packages/optimizely-sdk)               | [![npm](https://img.shields.io/npm/v/optimizely-sdk.svg?style=flat-square)](https://npmjs.com/package/@optimizely/optimizely-sdk)                     | [![](https://img.shields.io/badge/API%20Docs-site-green.svg?style=flat-square)](https://developers.optimizely.com/x/solutions/sdks/reference/?language=javascript)           | The Optimizely SDK SDK                                                                                                  |
+| [`optimizely-sdk-core`](/packages/optimizely-datafile-manager)               | [![npm](https://img.shields.io/npm/v/optimizely-datafile-manager.svg?style=flat-square)](https://npmjs.com/package/@optimizely/optimizely-datafile-manager)                     | [![](https://img.shields.io/badge/API%20Docs-site-green.svg?style=flat-square)](https://developers.optimizely.com/x/solutions/sdks/reference/?language=javascript)           | The Optimizely Datafile Manager Component                                                                                                  |
+| [`optimizely-sdk-core`](/packages/optimizely-network-client)               | [![npm](https://img.shields.io/npm/v/optimizely-network-client.svg?style=flat-square)](https://npmjs.com/package/@optimizely/optimizely-network-client)                     | [![](https://img.shields.io/badge/API%20Docs-site-green.svg?style=flat-square)](https://developers.optimizely.com/x/solutions/sdks/reference/?language=javascript)           | The Optimizely Network Client                                                                                                  |
+
+## Development
+
+### Installing dependencies
+
+```npm install```
+
+### Build distribution packages after changes
+
+```
+npm run build
+```
 
 ## About
 

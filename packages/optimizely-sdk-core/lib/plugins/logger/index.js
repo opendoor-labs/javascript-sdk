@@ -141,3 +141,5 @@ module.exports = {
     return new NoOpLogger();
   },
 };
+
+exports.default = module.exports;

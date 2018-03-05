@@ -1,0 +1,24 @@
+{
+  "name": "@optimizely/optimizely-datafile-manager",
+  "version": "1.0.0",
+  "description": "Datafile manager package for Optimizely X Full Stack",
+  "main": "dist/common/index.js",
+  "module": "dist/es/index.js",
+  "scripts": {
+    "build": "npm run build-commonjs && npm run build-es && rollup -c rollup.config.js",
+    "build-commonjs": "babel lib -d dist/common --presets=es2015,stage-3 --ignore __tests__",
+    "build-es": "babel lib -d dist/es --presets=stage-3 --ignore __tests__"
+  },
+  "dependencies": {
+    "@optimizely/optimizely-network-client": "1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist/",
+    "LICENSE",
+    "CHANGELOG",
+    "README.md"
+  ]
+}

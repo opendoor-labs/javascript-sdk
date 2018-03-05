@@ -1,0 +1,28 @@
+{
+  "name": "@optimizely/optimizely-sdk",
+  "version": "1.0.0",
+  "description": "JavaScript SDK package for Optimizely X Full Stack",
+  "main": "dist/common/index.node.js",
+  "browser": "dist/optimizely.browser.cjs.js",
+  "scripts": {
+    "build": "npm run build-commonjs",
+    "build-commonjs": "babel lib -d dist/common --presets=es2015,stage-3 --ignore __tests__",
+    "build-es": "babel lib -d dist/es --presets=stage-3 --ignore __tests__"
+  },
+  "dependencies": {
+    "@optimizely/optimizely-datafile-manager": "1.0.0",
+    "@optimizely/optimizely-sdk-core": "2.0.0-beta1"
+  },
+  "peerDependencies": {
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist/",
+    "lib/",
+    "LICENSE",
+    "CHANGELOG",
+    "README.md"
+  ]
+}

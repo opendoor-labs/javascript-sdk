@@ -69,5 +69,16 @@ module.exports = {
     }, config);
 
     return new Optimizely(config);
+  },
+
+  /**
+   * [createLogger description]
+   * @param  {[type]} config [description]
+   * @return {[type]}        [description]
+   */
+  createLogger: function(config) {
+    return logger.createLogger(config)
   }
 };
+
+exports.default = module.exports;
