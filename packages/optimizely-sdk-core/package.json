@@ -5,7 +5,7 @@
   "main": "dist/optimizely.node.js",
   "browser": "dist/optimizely.browser.cjs.js",
   "scripts": {
-    "test": "mocha ./lib/*.tests.js ./lib/**/*.tests.js ./lib/**/**/*tests.js --recursive",
+    "test": "mocha './lib/**/*.tests.js'",
     "test-travis": "npm run test && grunt",
     "build": "npm run build-node && npm run build-browser",
     "build-node": "npm run build-node-dev",
