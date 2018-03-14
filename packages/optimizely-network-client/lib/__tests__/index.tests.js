@@ -18,8 +18,8 @@ import { assert, expect } from 'chai'
 import fetchMock from 'fetch-mock'
 import sinon from 'sinon'
 
-import { LOG_LEVEL } from '../../../optimizely-sdk-core/lib/utils/enums'
-// import { LOG_LEVEL } from '@optimizely/optimizely-sdk-core'
+import { LOG_LEVEL, HTTP_STATUS_CODES } from '../../../optimizely-sdk-core/lib/utils/enums'
+// import { LOG_LEVEL, HTTP_STATUS_CODES } from '@optimizely/optimizely-sdk-core'
 import OptimizelyLogger from '../../../optimizely-sdk-core/lib/plugins/logger'
 // import { createLogger } from '@optimizely/optimizely-sdk-core'
 import OptimizelyNetworkClient from '../'
@@ -42,7 +42,7 @@ const RESULT = {
   headers: {
     etag: ETAG1
   },
-  status: 200
+  status: HTTP_STATUS_CODES.OK
 }
 
 const TEST_URL = 'http://www.example.com'

@@ -179,3 +179,8 @@ exports.FEATURE_VARIABLE_TYPES = {
   INTEGER: 'integer',
   STRING: 'string',
 };
+
+exports.HTTP_STATUS_CODES = {
+  OK: 200,
+  NOT_MODIFIED: 304
+};
