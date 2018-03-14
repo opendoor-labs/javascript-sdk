@@ -1,5 +1,5 @@
 /****************************************************************************
- * Copyright 2016-2017, Optimizely, Inc. and contributors                   *
+ * Copyright 2016-2018, Optimizely, Inc. and contributors                   *
  *                                                                          *
  * Licensed under the Apache License, Version 2.0 (the "License");          *
  * you may not use this file except in compliance with the License.         *
@@ -73,13 +73,22 @@ module.exports = {
   },
 
   /**
-   * [createLogger description]
-   * @param  {[type]} config [description]
-   * @return {[type]}        [description]
+   * Expose simple logger implementation
+   * @param {Object}  config              Configuration options for the logger
+   * @param {Boolean} config.logLevel     The default log level
+   * @param {Boolean} config.logToConsole True to log to the console
+   * @param {string}  config.prefix       Prefix to prepend to the log message
+   * @return {Object}
    */
   createLogger: function(config) {
     return logger.createLogger(config)
-  }
+  },
+
+  /**
+   * Expose global enums
+   * @type {Object}
+   */
+  enums: enums
 };
 
 exports = module.exports;

@@ -12,6 +12,10 @@
     "clean": "lerna run clean",
     "publish": "npm run build && lerna publish",
     "test": "lerna run test --stream",
+    "test-datafile-manager": "lerna run --scope @optimizely/optimizely-datafile-manager test",
+    "test-network-client": "lerna run --scope @optimizely/optimizely-network-client test",
+    "test-sdk": "lerna run --scope @optimizely/optimizely-sdk test",
+    "test-sdk-core": "lerna run --scope @optimizely/optimizely-sdk-core test",
     "test-travis": "lerna run test-travis --stream"
   },
   "devDependencies": {
