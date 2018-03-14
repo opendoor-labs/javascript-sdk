@@ -74,8 +74,13 @@ export default class OptimizelyNetworkClient {
       // @TODO: handle response not OK?
       if (response.ok) {
         return {
-          result: await response.json(),
-          status: response.status
+          result: {
+            body: await response.json(),
+            headers: {
+              etag: response.headers.get('etag')
+            },
+            status: response.status
+          }
         }
       }
     } catch (error) {

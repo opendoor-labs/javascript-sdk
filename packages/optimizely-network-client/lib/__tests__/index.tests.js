@@ -28,12 +28,21 @@ const logger = OptimizelyLogger.createLogger({ logLevel: LOG_LEVEL.DEBUG })
 const loggerStub = sinon.stub(logger, 'log')
 const client = new OptimizelyNetworkClient({ logger })
 
+const ETAG1 = '0123456789'
+const ETAG2 = 'abcdefghij'
 const FETCH_ERROR = new Error('request failed')
 const FETCH_HEADERS = {
   'If-None-Match': 'abcd0123'
 }
-const RESPONSE = {
+const RESPONSE_BODY = {
   test: 'data'
+}
+const RESULT = {
+  body: RESPONSE_BODY,
+  headers: {
+    etag: ETAG1
+  },
+  status: 200
 }
 
 const TEST_URL = 'http://www.example.com'
@@ -52,7 +61,12 @@ describe('optimizely-network-client', () => {
 
     describe('get', () => {
       beforeEach(() => {
-        fetchMock.get(TEST_URL, JSON.stringify(RESPONSE))
+        fetchMock.get(TEST_URL, {
+          body: JSON.stringify(RESPONSE_BODY),
+          headers: {
+            etag: ETAG1
+          }
+        })
         fetchMock.get(ERROR_URL, {
           throws: FETCH_ERROR
         })
@@ -70,8 +84,7 @@ describe('optimizely-network-client', () => {
       it('should fetch URL using GET method', async () => {
         const response = await client.get(TEST_URL)
         expect(response).to.deep.equal({
-          result: RESPONSE,
-          status: 200
+          result: RESULT
         })
         expect(fetchMock.lastOptions(TEST_URL, 'GET')).to.deep.equal({
           headers: {
@@ -89,8 +102,7 @@ describe('optimizely-network-client', () => {
         }
         const response = await client.get(TEST_URL, fetchConfig)
         expect(response).to.deep.equal({
-          result: RESPONSE,
-          status: 200
+          result: RESULT
         })
         expect(fetchMock.lastOptions(TEST_URL, 'GET')).to.deep.equal({
           headers: Object.assign({
@@ -115,7 +127,7 @@ describe('optimizely-network-client', () => {
         })
         expect(loggerStub.calledTwice).to.be.true
         expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.DEBUG)
-        expect(loggerStub.getCall(1).args[0]).to.equal(LOG_LEVEL.ERROR)
+        expect(loggerStub.getCall(1).args[0]).to.equal(LOG_LEVEL.WARNING)
         expect(loggerStub.getCall(1).args[1]).to.equal(
           `Unable to fetch ${ERROR_URL}: ${FETCH_ERROR.message}`)
       })
