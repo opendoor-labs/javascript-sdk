@@ -18,9 +18,11 @@ import { assert, expect } from 'chai'
 import fetchMock from 'fetch-mock'
 import sinon from 'sinon'
 
-import { LOG_LEVEL } from '../utils/enums'
-import OptimizelyNetworkClient from '../'
+import { LOG_LEVEL } from '../../../optimizely-sdk-core/lib/utils/enums'
+// import { LOG_LEVEL } from '@optimizely/optimizely-sdk-core'
 import OptimizelyLogger from '../../../optimizely-sdk-core/lib/plugins/logger'
+// import { createLogger } from '@optimizely/optimizely-sdk-core'
+import OptimizelyNetworkClient from '../'
 
 const logger = OptimizelyLogger.createLogger({ logLevel: LOG_LEVEL.DEBUG })
 const loggerStub = sinon.stub(logger, 'log')

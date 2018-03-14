@@ -15,7 +15,8 @@
  ***************************************************************************/
 
 import 'isomorphic-unfetch'
-import { LOG_LEVEL } from './utils/enums'
+import { LOG_LEVEL } from '../../optimizely-sdk-core/lib/utils/enums'
+// import { LOG_LEVEL } from '@optimizely/optimizely-sdk-core'
 
 const BASE_GET_HEADERS = {
   'content-type': 'application/json'
@@ -78,7 +79,7 @@ export default class OptimizelyNetworkClient {
         }
       }
     } catch (error) {
-      this.logger.log(LOG_LEVEL.ERROR,
+      this.logger.log(LOG_LEVEL.WARNING,
         `Unable to fetch ${url}: ${error.message}`)
       return {
         error
