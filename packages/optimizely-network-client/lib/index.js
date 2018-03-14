@@ -81,7 +81,7 @@ export default class OptimizelyNetworkClient {
       this.logger.log(LOG_LEVEL.ERROR,
         `Unable to fetch ${url}: ${error.message}`)
       return {
-        error: error
+        error
       }
     }
   }

@@ -24,7 +24,7 @@ import OptimizelyLogger from '../../../optimizely-sdk-core/lib/plugins/logger'
 
 const logger = OptimizelyLogger.createLogger({ logLevel: LOG_LEVEL.DEBUG })
 const loggerStub = sinon.stub(logger, 'log')
-const client = new OptimizelyNetworkClient({ logger: logger })
+const client = new OptimizelyNetworkClient({ logger })
 
 const FETCH_ERROR = new Error('request failed')
 const FETCH_HEADERS = {
