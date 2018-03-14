@@ -26,7 +26,7 @@ import OptimizelyNetworkClient from '../'
 
 const logger = OptimizelyLogger.createLogger({ logLevel: LOG_LEVEL.DEBUG })
 const loggerStub = sinon.stub(logger, 'log')
-const client = new OptimizelyNetworkClient({ logger })
+const networkClient = new OptimizelyNetworkClient({ logger })
 
 const ETAG1 = '0123456789'
 const ETAG2 = 'abcdefghij'
@@ -52,7 +52,7 @@ describe('optimizely-network-client', () => {
   describe('index', () => {
     afterEach(() => {
       fetchMock.restore()
-      loggerStub.resetHistory()
+      loggerStub.reset()
     })
 
     describe('constructor', () => {
@@ -73,7 +73,7 @@ describe('optimizely-network-client', () => {
       })
 
       it('should return an error if URL is missing', async () => {
-        const response = await client.get()
+        const response = await networkClient.get()
         expect(response).to.deep.equal({
           error: {
             message: 'Please provide a URL.'
@@ -82,7 +82,7 @@ describe('optimizely-network-client', () => {
       })
 
       it('should fetch URL using GET method', async () => {
-        const response = await client.get(TEST_URL)
+        const response = await networkClient.get(TEST_URL)
         expect(response).to.deep.equal({
           result: RESULT
         })
@@ -100,7 +100,7 @@ describe('optimizely-network-client', () => {
         const fetchConfig = {
           headers: FETCH_HEADERS
         }
-        const response = await client.get(TEST_URL, fetchConfig)
+        const response = await networkClient.get(TEST_URL, fetchConfig)
         expect(response).to.deep.equal({
           result: RESULT
         })
@@ -115,7 +115,7 @@ describe('optimizely-network-client', () => {
       })
 
       it('should return an error when fetch fails', async () => {
-        const response = await client.get(ERROR_URL)
+        const response = await networkClient.get(ERROR_URL)
         expect(response).to.deep.equal({
           error: FETCH_ERROR
         })
