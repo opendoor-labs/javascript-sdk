@@ -1,4 +1,21 @@
-import fetch from 'isomorphic-unfetch'
+/****************************************************************************
+ * Copyright 2018, Optimizely, Inc. and contributors                        *
+ *                                                                          *
+ * Licensed under the Apache License, Version 2.0 (the "License");          *
+ * you may not use this file except in compliance with the License.         *
+ * You may obtain a copy of the License at                                  *
+ *                                                                          *
+ *    http://www.apache.org/licenses/LICENSE-2.0                            *
+ *                                                                          *
+ * Unless required by applicable law or agreed to in writing, software      *
+ * distributed under the License is distributed on an "AS IS" BASIS,        *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *
+ * See the License for the specific language governing permissions and      *
+ * limitations under the License.                                           *
+ ***************************************************************************/
+
+import 'isomorphic-unfetch'
+import { LOG_LEVEL } from './utils/enums'
 
 const BASE_GET_HEADERS = {
   'content-type': 'application/json'
@@ -14,63 +31,28 @@ const BASE_POST_HEADERS = {
 
 /**
  * Networking client for POST and GET requests
- * @param {[type]} logger [description]
  */
-class OptimizelyNetworkClient {
-  constructor(config) {
-    this.logger = config.logger
-  }
-
+export default class OptimizelyNetworkClient {
   /**
-   * Executes a HTTP HEAD request with the given config params
-   * @param  {String} url     [description]
-   * @param  {Object} config  [description]
-   * @param  {Object} options [description]
-   * @return {Promise} Containing the Headers{} object for the response
+   * Default constructor
+   * @param {Object} config
+   * @param {Object} config.logger
    */
-  async head(url, config = {}, options) {
-    try {
-      this.logger.log(1, `Fetching HEAD for ${url}`)
-      if (!url) {
-        return {
-          error: {
-            message: 'Please provide a URL.'
-          }
-        }
-      }
-
-      const fetchConfig = {
-        headers: BASE_HEAD_HEADERS,
-        method: 'HEAD',
-        ...config
-      }
-
-      const response = await fetch(url, fetchConfig)
-      if (response.ok) {
-        this.logger.log(1, `HEAD FETCH for ${url} successful`)
-        return {
-          result: response.headers
-        }
-      } else {
-        // @TODO: log and return error
-      }
-    } catch (error) {
-      this.logger.log(3, `Error executing HEAD FETCH for ${url}: ${error.message}`)
-      // @TODO: log error
-      return {
-        error
-      }
-    }
+  constructor(config) {
+    // @TODO: check that logger is defined
+    this.logger = config.logger
   }
 
   /**
    * Executes a HTTP GET request with the given config params
    * @param {String} url
    * @param {Object} config
+   * @param {Object} config.headers
    * @param {Object} options
    * @return {Promise}
    */
-  async get(url, config = {}, options) {
+  async get(url, config = {}, options = {}) {
+    // @TODO: implement options
     try {
       if (!url) {
         return {
@@ -79,25 +61,27 @@ class OptimizelyNetworkClient {
           }
         }
       }
-      this.logger.log(1, `Executing GET request for ${url}`)
+      this.logger.log(LOG_LEVEL.DEBUG, `Executing GET request for ${url}`)
 
-      const fetchConfig = {
-        headers: BASE_GET_HEADERS,
-        method: 'GET',
-        ...config
-      }
+      const headers = Object.assign({}, BASE_GET_HEADERS, config.headers)
+      const fetchConfig = Object.assign({}, config, {
+        headers: headers,
+        method: 'GET'
+      })
 
       const response = await fetch(url, fetchConfig)
+      // @TODO: handle response not OK?
       if (response.ok) {
-        const datafile = await response.json()
         return {
-          result: datafile
+          result: await response.json(),
+          status: response.status
         }
       }
-    } catch(error) {
-      // @TODO: log error
+    } catch (error) {
+      this.logger.log(LOG_LEVEL.ERROR,
+        `Unable to fetch ${url}: ${error.message}`)
       return {
-        error
+        error: error
       }
     }
   }
@@ -110,8 +94,6 @@ class OptimizelyNetworkClient {
    * @return {Promise}
    */
   post(url, config, options) {
-
+    // @TODO
   }
 }
-
-export default OptimizelyNetworkClient
