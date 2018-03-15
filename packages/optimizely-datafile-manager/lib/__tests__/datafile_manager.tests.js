@@ -38,6 +38,10 @@ const DATAFILE = {
 const ETAG1 = '0123456789'
 const ETAG2 = 'abcdefghij'
 const PROJECT_ID = 123
+const DATAFILE_KEY = `optly-datafile-${PROJECT_ID}`
+const DATAFILE_URL = `https://cdn.optimizely.com/json/${PROJECT_ID}.json`
+const DEFAULT_DATAFILE_DOWNLOAD_INTERVAL = 5000
+const CUSTOM_DATAFILE_DOWNLOAD_INTERVAL = 10000
 
 describe('optimizely-datafile-manager', () => {
   describe('datafile_manager', () => {
@@ -48,15 +52,91 @@ describe('optimizely-datafile-manager', () => {
     })
 
     describe('constructor', () => {
+      // @TODO: implement tests
       xit('should ...', () => {})
     })
 
     describe('initialize', () => {
-      xit('should ...', () => {})
-    })
+      let clock;
 
-    describe('getStoredDatafile', () => {
-      xit('should ...', () => {})
+      beforeEach(() => {
+        clock = sinon.useFakeTimers()
+      })
+
+      afterEach(() => {
+        clock.restore()
+      })
+
+      it('should log a warning if project ID is missing', async () => {
+        const manager = new OptimizelyDatafileManager({ logger })
+        await manager.initialize({})
+        expect(loggerStub.calledOnce).to.be.true
+        expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.WARNING)
+        expect(loggerStub.getCall(0).args[1]).to.equal('Unable to initialize datafile manager without project ID')
+      })
+
+      it('should start datafile sync with default interval', async () => {
+        const manager = new OptimizelyDatafileManager({ logger })
+        const downloadDatafileStub = sinon.stub(manager, 'downloadDatafile')
+        await manager.initialize({
+          projectId: PROJECT_ID
+        })
+        expect(manager.projectId).to.equal(PROJECT_ID)
+        expect(manager.datafileKey).to.equal(DATAFILE_KEY)
+        expect(manager.datafileUrl).to.equal(DATAFILE_URL)
+        expect(manager.intervalObject).to.not.be.undefined
+        expect(loggerStub.callCount).to.equal(2)
+        expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.DEBUG)
+        expect(loggerStub.getCall(0).args[1]).to.equal('Initializing datafile manager')
+        expect(loggerStub.getCall(1).args[0]).to.equal(LOG_LEVEL.DEBUG)
+        expect(loggerStub.getCall(1).args[1]).to.equal(`Starting datafile sync (interval: ${DEFAULT_DATAFILE_DOWNLOAD_INTERVAL})`)
+        expect(downloadDatafileStub.callCount).to.equal(1)
+        clock.tick(DEFAULT_DATAFILE_DOWNLOAD_INTERVAL - 1)
+        expect(downloadDatafileStub.callCount).to.equal(1)
+        clock.tick(1)
+        expect(downloadDatafileStub.callCount).to.equal(2)
+        clearInterval(manager.intervalObject)
+      })
+
+      it('should start datafile sync with custom interval', async () => {
+        const manager = new OptimizelyDatafileManager({ logger })
+        const downloadDatafileStub = sinon.stub(manager, 'downloadDatafile')
+        await manager.initialize({
+          projectId: PROJECT_ID,
+          downloadInterval: CUSTOM_DATAFILE_DOWNLOAD_INTERVAL
+        })
+        expect(manager.projectId).to.equal(PROJECT_ID)
+        expect(manager.datafileKey).to.equal(DATAFILE_KEY)
+        expect(manager.datafileUrl).to.equal(DATAFILE_URL)
+        expect(manager.intervalObject).to.not.be.undefined
+        expect(loggerStub.callCount).to.equal(2)
+        expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.DEBUG)
+        expect(loggerStub.getCall(0).args[1]).to.equal('Initializing datafile manager')
+        expect(loggerStub.getCall(1).args[0]).to.equal(LOG_LEVEL.DEBUG)
+        expect(loggerStub.getCall(1).args[1]).to.equal(`Starting datafile sync (interval: ${CUSTOM_DATAFILE_DOWNLOAD_INTERVAL})`)
+        expect(downloadDatafileStub.callCount).to.equal(1)
+        clock.tick(CUSTOM_DATAFILE_DOWNLOAD_INTERVAL - 1)
+        expect(downloadDatafileStub.callCount).to.equal(1)
+        clock.tick(1)
+        expect(downloadDatafileStub.callCount).to.equal(2)
+        clearInterval(manager.intervalObject)
+      })
+
+      it('should not start datafile sync', async () => {
+        const manager = new OptimizelyDatafileManager({ logger })
+        const downloadDatafileStub = sinon.stub(manager, 'downloadDatafile')
+        await manager.initialize({
+          projectId: PROJECT_ID,
+          downloadInterval: false
+        })
+        expect(manager.intervalObject).to.be.undefined
+        expect(loggerStub.callCount).to.equal(2)
+        expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.DEBUG)
+        expect(loggerStub.getCall(0).args[1]).to.equal('Initializing datafile manager')
+        expect(loggerStub.getCall(1).args[0]).to.equal(LOG_LEVEL.DEBUG)
+        expect(loggerStub.getCall(1).args[1]).to.equal('Not starting datafile sync')
+        expect(downloadDatafileStub.callCount).to.equal(1)
+      })
     })
 
     describe('downloadDatafile', () => {
@@ -65,7 +145,7 @@ describe('optimizely-datafile-manager', () => {
         await manager.downloadDatafile()
         expect(loggerStub.calledOnce).to.be.true
         expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.WARNING)
-        expect(loggerStub.getCall(0).args[1]).to.equal('Unable to download datafile because project ID is missing')
+        expect(loggerStub.getCall(0).args[1]).to.equal('Unable to download datafile before initializing the datafile manager')
       })
 
       it('should download datafile if no ETag', async () => {
@@ -79,14 +159,15 @@ describe('optimizely-datafile-manager', () => {
           }
         })
         const manager = new OptimizelyDatafileManager({ logger, networkClient })
-        manager.projectId = PROJECT_ID
+        manager.datafileUrl = DATAFILE_URL
         await manager.downloadDatafile({
           onDatafileChange: onDatafileChangeCallback
         })
-        expect(onDatafileChangeCallback.called).to.be.true
+        expect(onDatafileChangeCallback.calledOnce).to.be.true
+        expect(onDatafileChangeCallback.getCall(0).args[0]).to.deep.equal(DATAFILE)
         expect(loggerStub.callCount).to.equal(2)
         expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.DEBUG)
-        expect(loggerStub.getCall(0).args[1]).to.equal(`Downloading datafile: https://cdn.optimizely.com/json/${PROJECT_ID}.json`)
+        expect(loggerStub.getCall(0).args[1]).to.equal(`Downloading datafile: ${DATAFILE_URL}`)
         expect(loggerStub.getCall(1).args[0]).to.equal(LOG_LEVEL.DEBUG)
         expect(loggerStub.getCall(1).args[1]).to.equal(`Downloaded new datafile (ETag: ${ETAG1})`)
       })
@@ -103,14 +184,15 @@ describe('optimizely-datafile-manager', () => {
         })
         const manager = new OptimizelyDatafileManager({ logger, networkClient })
         manager.currentETag = ETAG1
-        manager.projectId = PROJECT_ID
+        manager.datafileUrl = DATAFILE_URL
         await manager.downloadDatafile({
           onDatafileChange: onDatafileChangeCallback
         })
-        expect(onDatafileChangeCallback.called).to.be.true
+        expect(onDatafileChangeCallback.calledOnce).to.be.true
+        expect(onDatafileChangeCallback.getCall(0).args[0]).to.deep.equal(DATAFILE)
         expect(loggerStub.callCount).to.equal(2)
         expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.DEBUG)
-        expect(loggerStub.getCall(0).args[1]).to.equal(`Downloading datafile: https://cdn.optimizely.com/json/${PROJECT_ID}.json (ETag: ${ETAG1})`)
+        expect(loggerStub.getCall(0).args[1]).to.equal(`Downloading datafile: ${DATAFILE_URL} (ETag: ${ETAG1})`)
         expect(loggerStub.getCall(1).args[0]).to.equal(LOG_LEVEL.DEBUG)
         expect(loggerStub.getCall(1).args[1]).to.equal(`Downloaded new datafile (ETag: ${ETAG2})`)
       })
@@ -127,35 +209,52 @@ describe('optimizely-datafile-manager', () => {
         })
         const manager = new OptimizelyDatafileManager({ logger, networkClient })
         manager.currentETag = ETAG1
-        manager.projectId = PROJECT_ID
+        manager.datafileUrl = DATAFILE_URL
         await manager.downloadDatafile({
           onDatafileChange: onDatafileChangeCallback
         })
         expect(onDatafileChangeCallback.called).to.be.false
         expect(loggerStub.callCount).to.equal(2)
         expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.DEBUG)
-        expect(loggerStub.getCall(0).args[1]).to.equal(`Downloading datafile: https://cdn.optimizely.com/json/${PROJECT_ID}.json (ETag: ${ETAG1})`)
+        expect(loggerStub.getCall(0).args[1]).to.equal(`Downloading datafile: ${DATAFILE_URL} (ETag: ${ETAG1})`)
         expect(loggerStub.getCall(1).args[0]).to.equal(LOG_LEVEL.DEBUG)
-        expect(loggerStub.getCall(1).args[1]).to.equal(`Datafile has not changed`)
+        expect(loggerStub.getCall(1).args[1]).to.equal('Datafile has not changed')
       })
 
       it('should log a message if there was an error', async () => {
         networkClientGetStub.onFirstCall().throws()
         const manager = new OptimizelyDatafileManager({ logger, networkClient })
-        manager.projectId = PROJECT_ID
+        manager.datafileUrl = DATAFILE_URL
         await manager.downloadDatafile({
           onDatafileChange: onDatafileChangeCallback
         })
         expect(onDatafileChangeCallback.called).to.be.false
         expect(loggerStub.callCount).to.equal(2)
         expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.DEBUG)
-        expect(loggerStub.getCall(0).args[1]).to.equal(`Downloading datafile: https://cdn.optimizely.com/json/${PROJECT_ID}.json`)
+        expect(loggerStub.getCall(0).args[1]).to.equal(`Downloading datafile: ${DATAFILE_URL}`)
         expect(loggerStub.getCall(1).args[0]).to.equal(LOG_LEVEL.WARNING)
-        expect(loggerStub.getCall(1).args[1]).to.equal(`Unable to download datafile https://cdn.optimizely.com/json/${PROJECT_ID}.json: Error`)
-      })    })
+        expect(loggerStub.getCall(1).args[1]).to.equal(`Unable to download datafile ${DATAFILE_URL}: Error`)
+      })
+    })
 
     describe('stop', () => {
-      xit('should ...', () => {})
+      it('should stop interval', () => {
+        const manager = new OptimizelyDatafileManager({ logger })
+        manager.intervalObject = setInterval(() => {}, 1000)
+        manager.datafileUrl = DATAFILE_URL
+        manager.stop()
+        expect(loggerStub.callCount).to.equal(1)
+        expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.DEBUG)
+        expect(loggerStub.getCall(0).args[1]).to.equal(`Stop checking for datafile updates: ${DATAFILE_URL}`)
+        expect(manager.intervalObject).to.be.null
+      })
+
+      it('should log a message if interval is not set', () => {
+        const manager = new OptimizelyDatafileManager({ logger })
+        manager.stop()
+        expect(loggerStub.called).to.be.false
+        expect(manager.intervalObject).to.be.undefined
+      })
     })
   })
 })
