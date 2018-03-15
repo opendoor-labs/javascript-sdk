@@ -1,14 +1,40 @@
+/****************************************************************************
+ * Copyright 2018, Optimizely, Inc. and contributors                        *
+ *                                                                          *
+ * Licensed under the Apache License, Version 2.0 (the "License");          *
+ * you may not use this file except in compliance with the License.         *
+ * You may obtain a copy of the License at                                  *
+ *                                                                          *
+ *    http://www.apache.org/licenses/LICENSE-2.0                            *
+ *                                                                          *
+ * Unless required by applicable law or agreed to in writing, software      *
+ * distributed under the License is distributed on an "AS IS" BASIS,        *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *
+ * See the License for the specific language governing permissions and      *
+ * limitations under the License.                                           *
+ ***************************************************************************/
+
+import { LOG_LEVEL, HTTP_STATUS_CODES } from '../../optimizely-sdk-core/lib/utils/enums'
+// import { LOG_LEVEL, HTTP_STATUS_CODES } from '@optimizely/optimizely-sdk-core'
+
 const DATAFILE_KEY = 'optly-datafile'
 const DATAFILE_URL_PATH = 'https://cdn.optimizely.com/json'
 const DEFAULT_DATAFILE_DOWNLOAD_INTERVAL = 5000
+
 /**
  * DatafileManager
- * @param {Object} config
- * @param {Object} config.networkClient
  */
-class DatafileManager {
+export default class DatafileManager {
+  /**
+   * Default constructor
+   * @param {Object} config
+   * @param {Object} config.logger
+   * @param {Object} config.networkClient
+   * @param {Object} config.storageClient
+   */
   constructor(config) {
-    // @TODO: validated the given components against their interfaces
+    // @TODO: validate the given components against their interfaces
+    // @NOTE: logger and networkClient are required
     this.logger = config.logger
     this.networkClient = config.networkClient
     this.storageClient = config.storageClient
@@ -28,9 +54,9 @@ class DatafileManager {
       this.projectId = projectId
 
       // Start the sync job at the specified interval
-      this.logger.log(1, 'Initializing Datafile Manager')
+      this.logger.log(LOG_LEVEL.DEBUG, 'Initializing Datafile Manager')
       this.intervalObject = setInterval(() => {
-        this.syncDatafile({
+        this.downloadDatafile({
           onDatafileChange,
         })
       }, downloadInterval)
@@ -61,45 +87,65 @@ class DatafileManager {
   }
 
   /**
-   * Starts the datafile sync cron job
-   * @param  {Object} config
-   * @param  {Function} config.onDatafileChange [description]
-   * @return {[type]}        [description]
+   * Download datafile and check for updates
+   * @param  {Object}   config
+   * @param  {Function} config.onDatafileChange
    */
-  async syncDatafile(config) {
+  async downloadDatafile(config = {}) {
+    if (!this.projectId) {
+      this.logger.log(LOG_LEVEL.WARNING,
+        `Unable to download datafile because project ID is missing`)
+      return
+    }
+
+    const datafileUrl = `${DATAFILE_URL_PATH}/${this.projectId}.json`
     try {
-      if (this.networkClient) {
-        const datafileUrl = `${DATAFILE_URL_PATH}/${this.projectId}.json`
+      // Send ETag if available
+      const headers = {}
+      if (this.currentETag) {
+        this.logger.log(LOG_LEVEL.DEBUG,
+          `Downloading datafile: ${datafileUrl} (ETag: ${this.currentETag})`)
+        headers['If-None-Match'] = this.currentETag
+      } else {
+        this.logger.log(LOG_LEVEL.DEBUG,
+          `Downloading datafile: ${datafileUrl}`)
+      }
 
-        // Check if datafile has changed
-        const { result: responseHeaders, error: fetchHeadError } = await this.networkClient.head(datafileUrl, { method: 'HEAD' })
-        const newETag = responseHeaders.get('ETag')
+      const { result: fetchResult, error: fetchError } =
+        await this.networkClient.get(datafileUrl, { headers })
 
-        // No-op since the datafile has not changed
-        if (newETag === this.currentETag) {
-          this.logger.log(1, 'Datafile has not changed.')
+      if (fetchResult.status === HTTP_STATUS_CODES.OK) {
+        // Downloaded a new datafile
+        this.currentETag = fetchResult.headers.etag
+        this.logger.log(LOG_LEVEL.DEBUG,
+          `Downloaded new datafile (ETag: ${this.currentETag})`)
 
-          return
-        }
-        this.currentETag = newETag
-
-        // Fetch new datafile
-        this.logger.log(1, `Fetching Datafile ${datafileUrl}.`)
-        const { result: datafile, error } = await this.networkClient.get(datafileUrl, null, { retries: 0 })
+        const datafile = fetchResult.body;
         const onDatafileChangeCallback = config.onDatafileChange
         if (datafile && typeof onDatafileChangeCallback === 'function') {
           onDatafileChangeCallback(datafile)
         }
+      } else if (fetchResult.status === HTTP_STATUS_CODES.NOT_MODIFIED) {
+        // Datafile has not changed
+        this.logger.log(LOG_LEVEL.DEBUG, `Datafile has not changed`)
+      } else {
+        // @TODO handle other status codes
       }
     } catch (error) {
-      // log error
-      this.logger.log(3, `Error downloading datafile: ${error.message}`)
+      this.logger.log(LOG_LEVEL.WARNING,
+        `Unable to download datafile ${datafileUrl}: ${error.message}`)
     }
   }
 
+  /**
+   * Stop polling for datafile updates
+   */
   stop() {
-    clearInterval(this.intervalObject)
+    if (this.intervalObject) {
+      this.logger.log(LOG_LEVEL.DEBUG,
+        `Stop checking for datafile updates: ${datafileUrl}`)
+      clearInterval(this.intervalObject)
+      this.intervalObject = null
+    }
   }
 }
-
-export default DatafileManager

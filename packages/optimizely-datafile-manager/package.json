@@ -7,7 +7,8 @@
   "scripts": {
     "build": "npm run build-commonjs && npm run build-es && rollup -c rollup.config.js",
     "build-commonjs": "babel lib -d dist/common --presets=es2015,stage-3 --ignore __tests__",
-    "build-es": "babel lib -d dist/es --presets=stage-3 --ignore __tests__"
+    "build-es": "babel lib -d dist/es --presets=stage-3 --ignore __tests__",
+    "test": "mocha --require babel-core/register './lib/**/*.tests.js'"
   },
   "dependencies": {
     "@optimizely/optimizely-network-client": "1.0.0"
@@ -20,5 +21,12 @@
     "LICENSE",
     "CHANGELOG",
     "README.md"
-  ]
+  ],
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "chai": "^4.1.2",
+    "mocha": "^5.0.4",
+    "sinon": "^4.4.5"
+  }
 }
