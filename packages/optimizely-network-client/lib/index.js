@@ -22,10 +22,6 @@ const BASE_GET_HEADERS = {
   'content-type': 'application/json'
 }
 
-const BASE_HEAD_HEADERS = {
-  'content-type': 'application/json'
-}
-
 const BASE_POST_HEADERS = {
   'content-type': 'application/json'
 }

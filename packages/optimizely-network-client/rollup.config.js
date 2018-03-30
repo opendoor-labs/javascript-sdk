@@ -1,71 +1,82 @@
-import babel from "rollup-plugin-babel"
-import commonjs from "rollup-plugin-commonjs"
-import resolve from "rollup-plugin-node-resolve"
-import json from "rollup-plugin-json"
+import babel from 'rollup-plugin-babel'
+import commonjs from 'rollup-plugin-commonjs'
+import resolve from 'rollup-plugin-node-resolve'
+import json from 'rollup-plugin-json'
 
 const BASE_PLUGINS = [
+  commonjs(),
+  json()
 ]
 
-const config = [
-  {
-    input: "lib/index.js",
-    name: "OptimizelySDK",
+export default [{
+    input: 'lib/index.js',
     plugins: [
       resolve({
         browser: true,
-        customResolveOptions: {
-          moduleDirectory: ["../../node_modules", "../", "node_modules"]
-        },
-        preferBuiltins: false,
+        preferBuiltins: false
       }),
       babel({
         presets: [
-          ["es2015", { modules: false }],
-          "stage-3"
+          ['env', {
+            modules: false,
+            targets: {
+              'browsers': ['last 2 versions', '> 1%']
+            }
+          }],
+          'stage-3'
         ],
-        "plugins": [
-          "external-helpers"
+        plugins: [
+          'external-helpers'
         ],
-        exclude: "node_modules/**",
+        exclude: 'node_modules/**'
       }),
-      commonjs(),
-      json()
+      ...BASE_PLUGINS
     ],
     output: {
       file: 'dist/index.browser.cjs.js',
-      format: 'cjs'
+      format: 'cjs',
+      name: 'OptimizelySDK'
     }
   },
   {
-    input: "lib/index.js",
-    name: "OptimizelySDK",
+    input: 'lib/index.js',
+    external: [
+      'buffer',
+      'http',
+      'https',
+      'stream',
+      'url',
+      'util',
+      'zlib'
+    ],
     plugins: [
-      ...BASE_PLUGINS,
       resolve({
         main: true,
-        customResolveOptions: {
-          moduleDirectory: ["../../node_modules", "../", "node_modules"]
-        },
-        preferBuiltins: false,
+        preferBuiltins: false
       }),
       babel({
         presets: [
-          ["es2015", { modules: false }],
-          "stage-3"
+          ['env', {
+            modules: false,
+            targets: {
+              // @TODO target a specific version of node to reduce polyfills
+              // https://babeljs.io/docs/plugins/preset-env/
+              node: '6.10'
+            }
+          }],
+          'stage-3'
         ],
-        "plugins": [
-          "external-helpers"
+        plugins: [
+          'external-helpers'
         ],
-        exclude: "node_modules/**",
+        exclude: 'node_modules/**'
       }),
-      commonjs(),
-      json()
+      ...BASE_PLUGINS
     ],
     output: {
       file: 'dist/index.node.cjs.js',
-      format: 'cjs'
+      format: 'cjs',
+      name: 'OptimizelySDK'
     }
   }
 ]
-
-export default config
