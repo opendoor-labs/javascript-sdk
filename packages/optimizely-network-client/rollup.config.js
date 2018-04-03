@@ -1,7 +1,7 @@
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
-import resolve from 'rollup-plugin-node-resolve'
 import json from 'rollup-plugin-json'
+import resolve from 'rollup-plugin-node-resolve'
 
 const BASE_PLUGINS = [
   commonjs(),
@@ -10,6 +10,11 @@ const BASE_PLUGINS = [
 
 export default [{
     input: 'lib/index.js',
+    output: {
+      file: 'dist/index.browser.cjs.js',
+      format: 'cjs',
+      name: 'OptimizelySDK'
+    },
     plugins: [
       resolve({
         browser: true,
@@ -18,10 +23,7 @@ export default [{
       babel({
         presets: [
           ['env', {
-            modules: false,
-            targets: {
-              'browsers': ['last 2 versions', '> 1%']
-            }
+            modules: false
           }],
           'stage-3'
         ],
@@ -31,15 +33,15 @@ export default [{
         exclude: 'node_modules/**'
       }),
       ...BASE_PLUGINS
-    ],
-    output: {
-      file: 'dist/index.browser.cjs.js',
-      format: 'cjs',
-      name: 'OptimizelySDK'
-    }
+    ]
   },
   {
     input: 'lib/index.js',
+    output: {
+      file: 'dist/index.node.cjs.js',
+      format: 'cjs',
+      name: 'OptimizelySDK'
+    },
     external: [
       'buffer',
       'http',
@@ -57,12 +59,7 @@ export default [{
       babel({
         presets: [
           ['env', {
-            modules: false,
-            targets: {
-              // @TODO target a specific version of node to reduce polyfills
-              // https://babeljs.io/docs/plugins/preset-env/
-              node: '6.10'
-            }
+            modules: false
           }],
           'stage-3'
         ],
@@ -72,11 +69,6 @@ export default [{
         exclude: 'node_modules/**'
       }),
       ...BASE_PLUGINS
-    ],
-    output: {
-      file: 'dist/index.node.cjs.js',
-      format: 'cjs',
-      name: 'OptimizelySDK'
-    }
+    ]
   }
 ]

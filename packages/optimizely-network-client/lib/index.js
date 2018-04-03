@@ -15,8 +15,7 @@
  ***************************************************************************/
 
 import 'isomorphic-unfetch'
-import { LOG_LEVEL } from '../../optimizely-sdk-core/lib/utils/enums'
-// import { LOG_LEVEL } from '@optimizely/optimizely-sdk-core'
+import { LOG_LEVEL } from '@optimizely/optimizely-sdk-core/lib/utils/enums'
 
 const BASE_GET_HEADERS = {
   'content-type': 'application/json'

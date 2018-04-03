@@ -6,10 +6,10 @@
   "module": "dist/es/index.js",
   "scripts": {
     "build": "npm run build-commonjs && npm run build-es && npm run build-rollup",
-    "build-commonjs": "babel lib -d dist/common --presets=es2015,stage-3 --ignore __tests__",
+    "build-commonjs": "babel lib -d dist/common --presets=env,stage-3 --ignore __tests__",
     "build-es": "babel lib -d dist/es --presets=stage-3 --ignore __tests__",
     "build-rollup": "rollup -c rollup.config.js",
-    "test": "mocha --require babel-core/register './lib/**/*.tests.js'"
+    "test": "mocha --require babel-polyfill --compilers js:babel-register './lib/**/*.tests.js'"
   },
   "dependencies": {
     "@optimizely/optimizely-sdk-core": "^2.0.0-beta1",
@@ -17,13 +17,9 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
-    "chai": "^4.1.2",
     "fetch-mock": "^6.1.0",
-    "mocha": "^5.0.4",
-    "rollup": "^0.57.1",
-    "sinon": "^4.5.0"
+    "mocha": "^5.0.5",
+    "node-fetch": "^2.1.2"
   },
   "publishConfig": {
     "access": "public"
