@@ -23,7 +23,10 @@ export default [{
       babel({
         presets: [
           ['env', {
-            modules: false
+            modules: false,
+            targets: {
+              browsers: ['last 2 versions', '>0.1%']
+            }
           }],
           'stage-3'
         ],
@@ -59,7 +62,10 @@ export default [{
       babel({
         presets: [
           ['env', {
-            modules: false
+            modules: false,
+            targets: {
+              node: '6.0'
+            }
           }],
           'stage-3'
         ],
