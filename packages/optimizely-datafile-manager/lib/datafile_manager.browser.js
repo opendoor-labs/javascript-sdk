@@ -53,7 +53,7 @@ export default class DatafileManager {
         return
       }
 
-      this.logger.log(LOG_LEVEL.DEBUG, 'Initializing datafile manager')
+      this.logger.log(LOG_LEVEL.DEBUG, 'Initializing Optimizely Datafile Manager')
       this.projectId = projectId
       this.datafileUrl = `${DATAFILE_URL_PATH}/${this.projectId}.json`
 

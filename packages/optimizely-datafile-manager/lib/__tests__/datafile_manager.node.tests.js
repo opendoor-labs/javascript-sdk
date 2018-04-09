@@ -35,7 +35,6 @@ const DATAFILE = {
 const ETAG1 = '0123456789'
 const ETAG2 = 'abcdefghij'
 const PROJECT_ID = 123
-const DATAFILE_KEY = `optly-datafile-${PROJECT_ID}`
 const DATAFILE_URL = `https://cdn.optimizely.com/json/${PROJECT_ID}.json`
 const DEFAULT_DATAFILE_DOWNLOAD_INTERVAL = 5000
 const CUSTOM_DATAFILE_DOWNLOAD_INTERVAL = 10000
@@ -79,7 +78,6 @@ describe('optimizely-datafile-manager.node', () => {
           projectId: PROJECT_ID
         })
         expect(manager.projectId).to.equal(PROJECT_ID)
-        expect(manager.datafileKey).to.equal(DATAFILE_KEY)
         expect(manager.datafileUrl).to.equal(DATAFILE_URL)
         expect(manager.intervalObject).to.not.be.undefined
         expect(loggerStub.callCount).to.equal(2)
@@ -103,7 +101,6 @@ describe('optimizely-datafile-manager.node', () => {
           downloadInterval: CUSTOM_DATAFILE_DOWNLOAD_INTERVAL
         })
         expect(manager.projectId).to.equal(PROJECT_ID)
-        expect(manager.datafileKey).to.equal(DATAFILE_KEY)
         expect(manager.datafileUrl).to.equal(DATAFILE_URL)
         expect(manager.intervalObject).to.not.be.undefined
         expect(loggerStub.callCount).to.equal(2)

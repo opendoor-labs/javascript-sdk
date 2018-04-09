@@ -16,7 +16,6 @@
 
 import { LOG_LEVEL, HTTP_STATUS_CODES } from '@optimizely/optimizely-sdk-core/lib/utils/enums'
 
-const DATAFILE_KEY = 'optly-datafile'
 const DATAFILE_URL_PATH = 'https://cdn.optimizely.com/json'
 const DEFAULT_DATAFILE_DOWNLOAD_INTERVAL = 5000
 
@@ -56,9 +55,8 @@ export default class DatafileManager {
         return
       }
 
-      this.logger.log(LOG_LEVEL.DEBUG, 'Initializing datafile manager')
+      this.logger.log(LOG_LEVEL.DEBUG, 'Initializing Optimizely Datafile Manager')
       this.projectId = projectId
-      this.datafileKey = `${DATAFILE_KEY}-${this.projectId}`
       this.datafileUrl = `${DATAFILE_URL_PATH}/${this.projectId}.json`
 
       // Download the datafile

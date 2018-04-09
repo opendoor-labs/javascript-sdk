@@ -15,8 +15,7 @@
  ***************************************************************************/
 
 import OptimizelyNetworkClient from '@optimizely/optimizely-network-client'
-import { createLogger } from '@optimizely/optimizely-sdk-core/lib/plugins/logger'
-import { LOG_LEVEL } from '@optimizely/optimizely-sdk-core/lib/utils/enums'
+import { createNoOpLogger } from '@optimizely/optimizely-sdk-core/lib/plugins/logger'
 
 import DatafileManager from './datafile_manager.browser'
 
@@ -38,7 +37,7 @@ export function build(config) {
  */
 export function buildWithPresets(config = {}) {
   if (!config.logger) {
-    config.logger = createLogger({ logLevel: LOG_LEVEL.DEBUG })
+    config.logger = createNoOpLogger()
   }
 
   if (!config.networkClient) {

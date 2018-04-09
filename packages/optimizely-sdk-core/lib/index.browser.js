@@ -82,13 +82,7 @@ module.exports = {
    */
   createLogger: function(config) {
     return logger.createLogger(config)
-  },
-
-  /**
-   * Expose global enums
-   * @type {Object}
-   */
-  enums: enums
+  }
 };
 
 exports.default = module.exports;
