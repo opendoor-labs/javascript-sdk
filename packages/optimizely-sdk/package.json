@@ -5,16 +5,18 @@
   "main": "dist/common/index.node.js",
   "browser": "dist/optimizely.browser.cjs.js",
   "scripts": {
-    "build": "npm run build-commonjs && npm run build-es",
+    "build": "npm run build-commonjs && npm run build-es && npm run build-rollup",
     "build-commonjs": "babel lib -d dist/common --presets=env,stage-3 --ignore __tests__",
-    "build-es": "babel lib -d dist/es --presets=stage-3 --ignore __tests__"
+    "build-es": "babel lib -d dist/es --presets=stage-3 --ignore __tests__",
+    "build-rollup": "rollup -c rollup.config.js"
   },
   "dependencies": {
     "@optimizely/optimizely-datafile-manager": "1.0.0",
     "@optimizely/optimizely-sdk-core": "2.0.0-beta1"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0"
+    "babel-cli": "^6.26.0",
+    "rollup": "^0.57.1"
   },
   "publishConfig": {
     "access": "public"
