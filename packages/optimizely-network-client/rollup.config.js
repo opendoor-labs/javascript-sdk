@@ -16,6 +16,7 @@ export default [{
         preferBuiltins: false
       }),
       json(),
+      commonjs(),
       babel({
         presets: [
           ['env', {
@@ -30,8 +31,7 @@ export default [{
           'external-helpers'
         ],
         exclude: 'node_modules/**'
-      }),
-      commonjs()
+      })
     ]
   },
   {
@@ -56,6 +56,7 @@ export default [{
         preferBuiltins: false
       }),
       json(),
+      commonjs(),
       babel({
         presets: [
           ['env', {
@@ -70,8 +71,7 @@ export default [{
           'external-helpers'
         ],
         exclude: 'node_modules/**'
-      }),
-      commonjs()
+      })
     ]
   }
 ]
