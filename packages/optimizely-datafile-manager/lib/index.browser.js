@@ -14,5 +14,38 @@
  * limitations under the License.                                           *
  ***************************************************************************/
 
-import { assert, expect } from 'chai'
-import sinon from 'sinon'
+import OptimizelyNetworkClient from '@optimizely/optimizely-network-client'
+import { createLogger } from '@optimizely/optimizely-sdk-core/lib/plugins/logger'
+import { LOG_LEVEL } from '@optimizely/optimizely-sdk-core/lib/utils/enums'
+
+import DatafileManager from './datafile_manager.browser'
+
+/**
+ * Factory method for constructing the datafile manager instance
+ * @param {Object} config
+ * @param {Object} config.logger
+ * @param {Object} config.networkClient
+ */
+export function build(config) {
+  return new DatafileManager(config)
+}
+
+/**
+* Factory method for constructing the datafile manager instance with presets
+ * @param {Object} config
+ * @param {Object} config.logger
+ * @param {Object} config.networkClient
+ */
+export function buildWithPresets(config = {}) {
+  if (!config.logger) {
+    config.logger = createLogger({ logLevel: LOG_LEVEL.DEBUG })
+  }
+
+  if (!config.networkClient) {
+    config.networkClient = new OptimizelyNetworkClient({
+      logger: config.logger
+    })
+  }
+
+  return build(config)
+}

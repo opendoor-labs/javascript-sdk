@@ -1,64 +1,77 @@
-import babel from "rollup-plugin-babel"
-import commonjs from "rollup-plugin-commonjs"
-import resolve from "rollup-plugin-node-resolve"
-import json from "rollup-plugin-json"
+import babel from 'rollup-plugin-babel'
+import commonjs from 'rollup-plugin-commonjs'
+import json from 'rollup-plugin-json'
+import resolve from 'rollup-plugin-node-resolve'
 
-const BASE_PLUGINS = [
-]
-
-const config = [
-  {
-    input: "lib/index.js",
-    name: "OptimizelySDK",
-    plugins: [
-      ...BASE_PLUGINS,
-      resolve({
-        browser: true
-      }),
-      babel({
-        presets: [
-          ["es2015", { modules: false }],
-          "stage-3"
-        ],
-        "plugins": [
-          "external-helpers"
-        ],
-        exclude: "node_modules/**",
-      }),
-      commonjs(),
-      json()
-    ],
+export default [{
+    input: 'lib/index.browser.js',
     output: {
       file: 'dist/index.browser.cjs.js',
-      format: 'cjs'
-    }
-  },
-  {
-    input: "lib/index.js",
-    name: "OptimizelySDK",
+      format: 'cjs',
+      name: 'OptimizelySDK.DatafileManager'
+    },
     plugins: [
-      ...BASE_PLUGINS,
       resolve({
-        main: true
+        browser: true,
+        preferBuiltins: false
       }),
+      json(),
       babel({
         presets: [
-          ["es2015", { modules: false }],
-          "stage-3"
+          ['env', {
+            modules: false,
+            targets: {
+              browsers: ['last 2 versions', '>0.1%']
+            }
+          }],
         ],
-        "plugins": [
-          "external-helpers"
+        'plugins': [
+          'external-helpers'
         ],
-        exclude: "node_modules/**",
+        exclude: 'node_modules/**',
       }),
-      commonjs(),
-      json()
-    ],
+      commonjs()
+    ]
+  },
+  {
+    input: 'lib/index.node.js',
     output: {
       file: 'dist/index.node.cjs.js',
-      format: 'cjs'
-    }
+      format: 'cjs',
+      name: 'OptimizelySDK.DatafileManager'
+    },
+    external: [
+      'buffer',
+      'crypto',
+      'http',
+      'https',
+      'stream',
+      'url',
+      'util',
+      'zlib'
+],
+    plugins: [
+      resolve({
+        main: true,
+        preferBuiltins: false
+      }),
+      json(),
+      babel({
+        presets: [
+          ['env', {
+            modules: false,
+            targets: {
+              node: '6.0'
+            }
+          }],
+          'stage-3'
+        ],
+        'plugins': [
+          'external-helpers'
+        ],
+        exclude: 'node_modules/**',
+      }),
+      commonjs()
+    ]
   }
 ]
-
-export default config

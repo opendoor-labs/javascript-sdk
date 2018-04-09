@@ -15,18 +15,16 @@
  ***************************************************************************/
 
 import OptimizelyNetworkClient from '@optimizely/optimizely-network-client'
-import DatafileManager from './datafile_manager'
-import { LOG_LEVEL } from '../../optimizely-sdk-core/lib/utils/enums'
-// import { LOG_LEVEL } from '@optimizely/optimizely-sdk-core'
-import OptimizelyLogger from '../../../optimizely-sdk-core/lib/plugins/logger'
-// import { createLogger } from '@optimizely/optimizely-sdk-core'
+import { createLogger } from '@optimizely/optimizely-sdk-core/lib/plugins/logger'
+import { LOG_LEVEL } from '@optimizely/optimizely-sdk-core/lib/utils/enums'
+
+import DatafileManager from './datafile_manager.node'
 
 /**
  * Factory method for constructing the datafile manager instance
  * @param {Object} config
  * @param {Object} config.logger
  * @param {Object} config.networkClient
- * @param {Object} config.storageClient
  */
 export function build(config) {
   return new DatafileManager(config)
@@ -37,21 +35,16 @@ export function build(config) {
  * @param {Object} config
  * @param {Object} config.logger
  * @param {Object} config.networkClient
- * @param {Object} config.storageClient
  */
-export default function buildWithPresets(config = {}) {
+export function buildWithPresets(config = {}) {
   if (!config.logger) {
-    config.logger = OptimizelyLogger.createLogger({ logLevel: LOG_LEVEL.DEBUG })
+    config.logger = createLogger({ logLevel: LOG_LEVEL.DEBUG })
   }
 
   if (!config.networkClient) {
     config.networkClient = new OptimizelyNetworkClient({
       logger: config.logger
     })
-  }
-
-  if (!config.storageClient) {
-    // @TODO: implement
   }
 
   return build(config)

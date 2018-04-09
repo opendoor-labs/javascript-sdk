@@ -3,23 +3,19 @@ import commonjs from 'rollup-plugin-commonjs'
 import json from 'rollup-plugin-json'
 import resolve from 'rollup-plugin-node-resolve'
 
-const BASE_PLUGINS = [
-  commonjs(),
-  json()
-]
-
 export default [{
     input: 'lib/index.js',
     output: {
       file: 'dist/index.browser.cjs.js',
       format: 'cjs',
-      name: 'OptimizelySDK'
+      name: 'OptimizelySDK.NetworkClient'
     },
     plugins: [
       resolve({
         browser: true,
         preferBuiltins: false
       }),
+      json(),
       babel({
         presets: [
           ['env', {
@@ -35,7 +31,7 @@ export default [{
         ],
         exclude: 'node_modules/**'
       }),
-      ...BASE_PLUGINS
+      commonjs()
     ]
   },
   {
@@ -43,7 +39,7 @@ export default [{
     output: {
       file: 'dist/index.node.cjs.js',
       format: 'cjs',
-      name: 'OptimizelySDK'
+      name: 'OptimizelySDK.NetworkClient'
     },
     external: [
       'buffer',
@@ -59,6 +55,7 @@ export default [{
         main: true,
         preferBuiltins: false
       }),
+      json(),
       babel({
         presets: [
           ['env', {
@@ -74,7 +71,7 @@ export default [{
         ],
         exclude: 'node_modules/**'
       }),
-      ...BASE_PLUGINS
+      commonjs()
     ]
   }
 ]

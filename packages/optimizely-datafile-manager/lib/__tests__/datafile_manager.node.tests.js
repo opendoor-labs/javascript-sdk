@@ -17,15 +17,12 @@
 import { assert, expect } from 'chai'
 import sinon from 'sinon'
 
-import { LOG_LEVEL, HTTP_STATUS_CODES } from '../../../optimizely-sdk-core/lib/utils/enums'
-// import { LOG_LEVEL, HTTP_STATUS_CODES } from '@optimizely/optimizely-sdk-core'
-import OptimizelyDatafileManager from '../datafile_manager'
-import OptimizelyLogger from '../../../optimizely-sdk-core/lib/plugins/logger'
-// import { createLogger } from '@optimizely/optimizely-sdk-core'
-import OptimizelyNetworkClient from '../../../optimizely-network-client/lib'
-// import { OptimizelyNetworkClient } from '@optimizely/optimizely-network-client'
+import { LOG_LEVEL, HTTP_STATUS_CODES } from '@optimizely/optimizely-sdk-core/lib/utils/enums'
+import OptimizelyDatafileManager from '../datafile_manager.node'
+import { createLogger } from '@optimizely/optimizely-sdk-core/lib/plugins/logger'
+import OptimizelyNetworkClient from '@optimizely/optimizely-network-client'
 
-const logger = OptimizelyLogger.createLogger({ logLevel: LOG_LEVEL.DEBUG })
+const logger = createLogger({ logLevel: LOG_LEVEL.DEBUG })
 const loggerStub = sinon.stub(logger, 'log')
 const networkClient = new OptimizelyNetworkClient({ logger })
 const networkClientGetStub = sinon.stub(networkClient, 'get')
@@ -43,7 +40,7 @@ const DATAFILE_URL = `https://cdn.optimizely.com/json/${PROJECT_ID}.json`
 const DEFAULT_DATAFILE_DOWNLOAD_INTERVAL = 5000
 const CUSTOM_DATAFILE_DOWNLOAD_INTERVAL = 10000
 
-describe('optimizely-datafile-manager', () => {
+describe('optimizely-datafile-manager.node', () => {
   describe('datafile_manager', () => {
     afterEach(() => {
       loggerStub.reset()
@@ -53,7 +50,7 @@ describe('optimizely-datafile-manager', () => {
 
     describe('constructor', () => {
       // @TODO: implement tests
-      xit('should ...', () => {})
+      xit('...', () => {})
     })
 
     describe('initialize', () => {
@@ -249,7 +246,7 @@ describe('optimizely-datafile-manager', () => {
         expect(manager.intervalObject).to.be.null
       })
 
-      it('should log a message if interval is not set', () => {
+      it('should do nothing if interval is not set', () => {
         const manager = new OptimizelyDatafileManager({ logger })
         manager.stop()
         expect(loggerStub.called).to.be.false
