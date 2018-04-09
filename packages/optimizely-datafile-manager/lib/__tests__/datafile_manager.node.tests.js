@@ -82,7 +82,7 @@ describe('optimizely-datafile-manager.node', () => {
         expect(manager.intervalObject).to.not.be.undefined
         expect(loggerStub.callCount).to.equal(2)
         expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.DEBUG)
-        expect(loggerStub.getCall(0).args[1]).to.equal('Initializing datafile manager')
+        expect(loggerStub.getCall(0).args[1]).to.equal('Initializing Optimizely Datafile Manager')
         expect(loggerStub.getCall(1).args[0]).to.equal(LOG_LEVEL.DEBUG)
         expect(loggerStub.getCall(1).args[1]).to.equal(`Starting datafile sync (interval: ${DEFAULT_DATAFILE_DOWNLOAD_INTERVAL})`)
         expect(downloadDatafileStub.callCount).to.equal(1)
@@ -105,7 +105,7 @@ describe('optimizely-datafile-manager.node', () => {
         expect(manager.intervalObject).to.not.be.undefined
         expect(loggerStub.callCount).to.equal(2)
         expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.DEBUG)
-        expect(loggerStub.getCall(0).args[1]).to.equal('Initializing datafile manager')
+        expect(loggerStub.getCall(0).args[1]).to.equal('Initializing Optimizely Datafile Manager')
         expect(loggerStub.getCall(1).args[0]).to.equal(LOG_LEVEL.DEBUG)
         expect(loggerStub.getCall(1).args[1]).to.equal(`Starting datafile sync (interval: ${CUSTOM_DATAFILE_DOWNLOAD_INTERVAL})`)
         expect(downloadDatafileStub.callCount).to.equal(1)
@@ -126,7 +126,7 @@ describe('optimizely-datafile-manager.node', () => {
         expect(manager.intervalObject).to.be.undefined
         expect(loggerStub.callCount).to.equal(2)
         expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.DEBUG)
-        expect(loggerStub.getCall(0).args[1]).to.equal('Initializing datafile manager')
+        expect(loggerStub.getCall(0).args[1]).to.equal('Initializing Optimizely Datafile Manager')
         expect(loggerStub.getCall(1).args[0]).to.equal(LOG_LEVEL.DEBUG)
         expect(loggerStub.getCall(1).args[1]).to.equal('Not starting datafile sync')
         expect(downloadDatafileStub.callCount).to.equal(1)

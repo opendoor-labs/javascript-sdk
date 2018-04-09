@@ -67,7 +67,7 @@ describe('optimizely-datafile-manager.browser', () => {
         expect(manager.intervalObject).to.be.undefined
         expect(loggerStub.callCount).to.equal(1)
         expect(loggerStub.getCall(0).args[0]).to.equal(LOG_LEVEL.DEBUG)
-        expect(loggerStub.getCall(0).args[1]).to.equal('Initializing datafile manager')
+        expect(loggerStub.getCall(0).args[1]).to.equal('Initializing Optimizely Datafile Manager')
         expect(downloadDatafileStub.callCount).to.equal(1)
       })
     })
