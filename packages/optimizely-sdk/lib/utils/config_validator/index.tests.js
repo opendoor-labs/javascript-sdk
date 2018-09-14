@@ -34,7 +34,7 @@ describe('lib/utils/config_validator', function() {
 
       it('should complain if the provided event dispatcher is invalid', function() {
         assert.throws(function() {
-          configValidator.validate({
+          configValidator.validate({  
             eventDispatcher: {},
           });
         }, sprintf(ERROR_MESSAGES.INVALID_EVENT_DISPATCHER, 'CONFIG_VALIDATOR'));
