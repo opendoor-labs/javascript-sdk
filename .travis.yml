@@ -24,6 +24,6 @@ before_install: cd packages/optimizely-sdk
 install: npm install
 addons:
   srcclr: true
-before_script: npm run lint
+before_script: npm run lint -- --max-warnings 0
 script: npm test
 after_success: npm run coveralls
