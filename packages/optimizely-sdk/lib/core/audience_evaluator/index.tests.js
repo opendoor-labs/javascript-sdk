@@ -1,5 +1,5 @@
 /**
- * Copyright 2016, 2018 Optimizely
+ * Copyright 2016, 2018-2019 Optimizely
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,11 @@ var chai = require('chai');
 var conditionTreeEvaluator = require('../condition_tree_evaluator');
 var customAttributeConditionEvaluator = require('../custom_attribute_condition_evaluator');
 var sinon = require('sinon');
-
 var assert = chai.assert;
+var logger = require('../../plugins/logger');
+var enums = require('../../utils/enums');
+var LOG_LEVEL = enums.LOG_LEVEL;
+var LOG_MESSAGES = enums.LOG_MESSAGES;
 
 var chromeUserAudience = {
   conditions: ['and', {
@@ -52,12 +55,23 @@ var audiencesById = {
 describe('lib/core/audience_evaluator', function() {
   describe('APIs', function() {
     describe('evaluate', function() {
+      var expKey = 'dummy_experiment';
+      var mockLogger = logger.createLogger({logLevel: LOG_LEVEL.INFO});
+
+      beforeEach(function () {
+        sinon.stub(mockLogger, 'log');
+      });
+
+      afterEach(function() {
+        mockLogger.log.restore();
+      });
+
       it('should return true if there are no audiences', function() {
-        assert.isTrue(audienceEvaluator.evaluate([], audiencesById, {}));
+        assert.isTrue(audienceEvaluator.evaluate([], audiencesById, {}, expKey, mockLogger));
       });
 
       it('should return false if there are audiences but no attributes', function() {
-        assert.isFalse(audienceEvaluator.evaluate(['0'], audiencesById, {}));
+        assert.isFalse(audienceEvaluator.evaluate(['0'], audiencesById, {}, expKey, mockLogger));
       });
 
       it('should return true if any of the audience conditions are met', function() {
@@ -74,9 +88,9 @@ describe('lib/core/audience_evaluator', function() {
           'device_model': 'iphone',
         };
 
-        assert.isTrue(audienceEvaluator.evaluate(['0', '1'], audiencesById, iphoneUsers));
-        assert.isTrue(audienceEvaluator.evaluate(['0', '1'], audiencesById, chromeUsers));
-        assert.isTrue(audienceEvaluator.evaluate(['0', '1'], audiencesById, iphoneChromeUsers));
+        assert.isTrue(audienceEvaluator.evaluate(['0', '1'], audiencesById, iphoneUsers, expKey, mockLogger));
+        assert.isTrue(audienceEvaluator.evaluate(['0', '1'], audiencesById, chromeUsers, expKey, mockLogger));
+        assert.isTrue(audienceEvaluator.evaluate(['0', '1'], audiencesById, iphoneChromeUsers, expKey, mockLogger));
       });
 
       it('should return false if none of the audience conditions are met', function() {
@@ -93,13 +107,13 @@ describe('lib/core/audience_evaluator', function() {
           'device_model': 'nexus5',
         };
 
-        assert.isFalse(audienceEvaluator.evaluate(['0', '1'], audiencesById, nexusUsers));
-        assert.isFalse(audienceEvaluator.evaluate(['0', '1'], audiencesById, safariUsers));
-        assert.isFalse(audienceEvaluator.evaluate(['0', '1'], audiencesById, nexusSafariUsers));
+        assert.isFalse(audienceEvaluator.evaluate(['0', '1'], audiencesById, nexusUsers, expKey, mockLogger));
+        assert.isFalse(audienceEvaluator.evaluate(['0', '1'], audiencesById, safariUsers, expKey, mockLogger));
+        assert.isFalse(audienceEvaluator.evaluate(['0', '1'], audiencesById, nexusSafariUsers, expKey, mockLogger));
       });
 
       it('should return true if no attributes are passed and the audience conditions evaluate to true in the absence of attributes', function() {
-        assert.isTrue(audienceEvaluator.evaluate(['2'], audiencesById));
+        assert.isTrue(audienceEvaluator.evaluate(['2'], audiencesById, null, expKey, mockLogger));
       });
 
       describe('complex audience conditions', function() {
@@ -116,7 +130,9 @@ describe('lib/core/audience_evaluator', function() {
           var result = audienceEvaluator.evaluate(
             ['and', '0', '1'],
             audiencesById,
-            { browser_type: 'chrome', device_model: 'iphone' }
+            { browser_type: 'chrome', device_model: 'iphone' },
+            expKey,
+            mockLogger
           );
           assert.isTrue(result);
         });
@@ -125,7 +141,9 @@ describe('lib/core/audience_evaluator', function() {
           var result = audienceEvaluator.evaluate(
             ['not', '1'],
             audiencesById,
-            { device_model: 'android' }
+            { device_model: 'android' },
+            expKey,
+            mockLogger
           );
           assert.isTrue(result);
         });
@@ -149,7 +167,9 @@ describe('lib/core/audience_evaluator', function() {
           var result = audienceEvaluator.evaluate(
             ['or', '0', '1'],
             audiencesById,
-            { browser_type: 'chrome' }
+            { browser_type: 'chrome' },
+            expKey,
+            mockLogger
           );
           assert.isTrue(result);
         });

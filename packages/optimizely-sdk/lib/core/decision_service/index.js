@@ -1,5 +1,5 @@
 /****************************************************************************
- * Copyright 2017-2018, Optimizely, Inc. and contributors                   *
+ * Copyright 2017-2019, Optimizely, Inc. and contributors                   *
  *                                                                          *
  * Licensed under the Apache License, Version 2.0 (the "License");          *
  * you may not use this file except in compliance with the License.         *
@@ -167,7 +167,7 @@ DecisionService.prototype.__getWhitelistedVariation = function(experiment, userI
 DecisionService.prototype.__checkIfUserIsInAudience = function(experimentKey, userId, attributes) {
   var experimentAudienceConditions = projectConfig.getExperimentAudienceConditions(this.configObj, experimentKey);
   var audiencesById = projectConfig.getAudiencesById(this.configObj);
-  if (!audienceEvaluator.evaluate(experimentAudienceConditions, audiencesById, attributes)) {
+  if (!audienceEvaluator.evaluate(experimentAudienceConditions, audiencesById, attributes, experimentKey, this.logger)) {
     var userDoesNotMeetConditionsLogMessage = sprintf(LOG_MESSAGES.USER_NOT_IN_EXPERIMENT, MODULE_NAME, userId, experimentKey);
     this.logger.log(LOG_LEVEL.INFO, userDoesNotMeetConditionsLogMessage);
     return false;

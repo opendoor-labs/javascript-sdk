@@ -1,5 +1,5 @@
 /****************************************************************************
- * Copyright 2016-2018, Optimizely, Inc. and contributors                   *
+ * Copyright 2016-2019, Optimizely, Inc. and contributors                   *
  *                                                                          *
  * Licensed under the Apache License, Version 2.0 (the "License");          *
  * you may not use this file except in compliance with the License.         *
@@ -126,6 +126,17 @@ exports.LOG_MESSAGES = {
   VARIABLE_REQUESTED_WITH_WRONG_TYPE: '%s: Requested variable type "%s", but variable is of type "%s". Use correct API to retrieve value. Returning None.',
   VALID_BUCKETING_ID: '%s: BucketingId is valid: "%s"',
   BUCKETING_ID_NOT_STRING: '%s: BucketingID attribute is not a string. Defaulted to userId',
+  AUDIENCE_EVALUATION_RESULT: '%s: Audience "%s" evaluated as %s.',
+  AUDIENCE_EVALUATION_RESULT_COMBINED: '%s: Audiences for experiment %s collectively evaluated as %s.',
+  EVALUATING_AUDIENCES: '%s: Evaluating audiences for experiment "%s": "%s".',
+  EVALUATING_AUDIENCE_WITH_CONDITIONS: '%s: Starting to evaluate audience "%s" with conditions: "%s".',
+  MISMATCH_TYPE: '%s: Audience condition %s evaluated as UNKNOWN because the type of user attribute "%s" is "%s" while expected is "%s".',
+  MISSING_ATTRIBUTE_VALUE: '%s: Audience condition %s evaluated as UNKNOWN because no value was passed for user attribute "%s".',
+  NO_AUDIENCE_ATTACHED: '%s: No Audience attached to experiment "%s". Evaluated as True.',
+  UNEXPECTED_TYPE: '%s: Audience condition %s evaluated as UNKNOWN because the value for user attribute "%s" is inapplicable: "%s".',
+  UNKNOWN_CONDITION_TYPE: '%s: Audience condition "%s" has an unknown condition type.',
+  UNKNOWN_MATCH_TYPE: '%s: Audience condition "%s" uses an unknown match type.',
+  USER_ATTRIBUTES: '%s: User attributes: "%s".',
 };
 
 exports.RESERVED_EVENT_KEYWORDS = {
