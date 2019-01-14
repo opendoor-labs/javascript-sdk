@@ -1,5 +1,5 @@
 /****************************************************************************
- * Copyright 2017-2018, Optimizely, Inc. and contributors                        *
+ * Copyright 2017-2019, Optimizely, Inc. and contributors                        *
  *                                                                          *
  * Licensed under the Apache License, Version 2.0 (the "License");          *
  * you may not use this file except in compliance with the License.         *
@@ -75,7 +75,7 @@ describe('lib/core/decision_service', function() {
 
       it('should return null if the user does not meet audience conditions', function () {
         assert.isNull(decisionServiceInstance.getVariation('testExperimentWithAudiences', 'user3', {foo: 'bar'}));
-        assert.strictEqual(2, mockLogger.log.callCount);
+        assert.strictEqual(9, mockLogger.log.callCount);
         assert.strictEqual(mockLogger.log.args[0][1], 'PROJECT_CONFIG: User user3 is not in the forced variation map.');
         assert.strictEqual(mockLogger.log.args[1][1], 'DECISION_SERVICE: User user3 does not meet conditions to be in experiment testExperimentWithAudiences.');
       });

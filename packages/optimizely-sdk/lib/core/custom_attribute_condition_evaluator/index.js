@@ -72,7 +72,7 @@ function evaluate(condition, userAttributes, logger) {
   }
 
   var evaluatorForMatch = EVALUATORS_BY_MATCH_TYPE[conditionMatch] || exactEvaluator;
-  return evaluatorForMatch(condition, userAttributes);
+  return evaluatorForMatch(condition, userAttributes, logger);
 }
 
 /**

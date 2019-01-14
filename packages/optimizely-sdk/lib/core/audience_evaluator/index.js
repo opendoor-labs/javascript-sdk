@@ -33,25 +33,21 @@ module.exports = {
    *                                                              should be full audience objects with conditions properties
    * @param  {Object}                       [userAttributes]      User attributes which will be used in determining if audience conditions
    *                                                              are met. If not provided, defaults to an empty object
-   * @param  {String}                       experimentKey         Key of experiment.
    * @param  {Object}                       logger                Logger instance.
    * @return {Boolean}                                            true if the user attributes match the given audience conditions, false
    *                                                              otherwise
    */
-  evaluate: function(audienceConditions, audiencesById, userAttributes, experimentKey, logger) {
+  evaluate: function(audienceConditions, audiencesById, userAttributes, logger) {
     // if there are no audiences, return true because that means ALL users are included in the experiment
     if (!audienceConditions || audienceConditions.length === 0) {
-      logger.log(LOG_LEVEL.INFO, sprintf(LOG_MESSAGES.NO_AUDIENCE_ATTACHED, MODULE_NAME, experimentKey));
       return true;
     }
-
-    logger.log(LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.EVALUATING_AUDIENCES, MODULE_NAME, experimentKey, audienceConditions));
 
     if (!userAttributes) {
       userAttributes = {};
     }
 
-    logger.log(LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_ATTRIBUTES, MODULE_NAME, experimentKey, userAttributes));
+    logger.log(LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_ATTRIBUTES, MODULE_NAME, userAttributes));
 
     var evaluateConditionWithUserAttributes = function(condition) {
       return customAttributeConditionEvaluator.evaluate(condition, userAttributes, logger);
@@ -60,7 +56,7 @@ module.exports = {
     var evaluateAudience = function(audienceId) {
       var audience = audiencesById[audienceId];
       if (audience) {
-        logger.log(LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.EVALUATING_AUDIENCE_WITH_CONDITIONS, MODULE_NAME, experimentKey, audience.conditions));
+        logger.log(LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.EVALUATING_AUDIENCE_WITH_CONDITIONS, MODULE_NAME, audience.conditions));
         var result = conditionTreeEvaluator.evaluate(audience.conditions, evaluateConditionWithUserAttributes);
         var resultText = result === null ? 'UNKNOWN' : sprintf('%s', result);
         logger.log(LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.AUDIENCE_EVALUATION_RESULT, MODULE_NAME, audienceId, resultText));
@@ -70,8 +66,6 @@ module.exports = {
       return null;
     };
 
-    var evaluationResult = conditionTreeEvaluator.evaluate(audienceConditions, evaluateAudience) || false;
-    logger.log(LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.AUDIENCE_EVALUATION_RESULT_COMBINED, MODULE_NAME, experimentKey, evaluationResult));
-    return evaluationResult;
+    return conditionTreeEvaluator.evaluate(audienceConditions, evaluateAudience) || false;
   },
 };
