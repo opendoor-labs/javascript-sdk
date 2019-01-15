@@ -1,5 +1,5 @@
 /****************************************************************************
- * Copyright 2016-2018, Optimizely, Inc. and contributors                   *
+ * Copyright 2016-2019, Optimizely, Inc. and contributors                   *
  *                                                                          *
  * Licensed under the Apache License, Version 2.0 (the "License");          *
  * you may not use this file except in compliance with the License.         *
@@ -399,7 +399,6 @@ describe('lib/optimizely', function() {
 
         sinon.assert.calledOnce(bucketer.bucket);
         sinon.assert.calledOnce(eventDispatcher.dispatchEvent);
-        sinon.assert.calledTwice(createdLogger.log);
 
         var expectedObj = {
           url: 'https://logx.optimizely.com/v1/events',
@@ -433,15 +432,14 @@ describe('lib/optimizely', function() {
         var eventDispatcherCall = eventDispatcher.dispatchEvent.args[0];
         assert.deepEqual(eventDispatcherCall[0], expectedObj);
 
-        var logMessage1 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
-                                                'PROJECT_CONFIG',
-                                                'testUser'));
-        var logMessage2 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.DISPATCH_IMPRESSION_EVENT,
-                                               'OPTIMIZELY',
-                                               expectedObj.url,
-                                               JSON.stringify(expectedObj.params)));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
+                'PROJECT_CONFIG',
+                'testUser'));
+
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.DISPATCH_IMPRESSION_EVENT,
+            'OPTIMIZELY',
+            expectedObj.url,
+            JSON.stringify(expectedObj.params)));
       });
 
       it('should dispatch proper params for null value attributes', function() {
@@ -451,7 +449,6 @@ describe('lib/optimizely', function() {
 
         sinon.assert.calledOnce(bucketer.bucket);
         sinon.assert.calledOnce(eventDispatcher.dispatchEvent);
-        sinon.assert.calledTwice(createdLogger.log);
 
         var expectedObj = {
           url: 'https://logx.optimizely.com/v1/events',
@@ -491,16 +488,14 @@ describe('lib/optimizely', function() {
         var eventDispatcherCall = eventDispatcher.dispatchEvent.args[0];
         assert.deepEqual(eventDispatcherCall[0], expectedObj);
 
-        var logMessage0 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage0, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
-                                                'PROJECT_CONFIG',
-                                                'testUser'));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
+            'PROJECT_CONFIG',
+            'testUser'));
 
-        var logMessage1 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.DISPATCH_IMPRESSION_EVENT,
-                                               'OPTIMIZELY',
-                                               expectedObj.url,
-                                               JSON.stringify(expectedObj.params)));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.DISPATCH_IMPRESSION_EVENT,
+            'OPTIMIZELY',
+            expectedObj.url,
+            JSON.stringify(expectedObj.params)));
       });
 
       it('should call bucketer and dispatchEvent with proper args and return variation key if user is in audience', function() {
@@ -510,7 +505,6 @@ describe('lib/optimizely', function() {
 
         sinon.assert.calledOnce(bucketer.bucket);
         sinon.assert.calledOnce(eventDispatcher.dispatchEvent);
-        sinon.assert.calledTwice(createdLogger.log);
 
         var expectedObj = {
           url: 'https://logx.optimizely.com/v1/events',
@@ -550,15 +544,15 @@ describe('lib/optimizely', function() {
         var eventDispatcherCall = eventDispatcher.dispatchEvent.args[0];
         assert.deepEqual(eventDispatcherCall[0], expectedObj);
 
-        var logMessage1 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
-                                                'PROJECT_CONFIG',
-                                                'testUser'));
-        var logMessage2 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.DISPATCH_IMPRESSION_EVENT,
-                                               'OPTIMIZELY',
-                                               expectedObj.url,
-                                               JSON.stringify(expectedObj.params)));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
+            'PROJECT_CONFIG',
+            'testUser'));
+
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.DISPATCH_IMPRESSION_EVENT,
+            'OPTIMIZELY',
+            expectedObj.url,
+            JSON.stringify(expectedObj.params)));
+
       });
 
       it('should call activate and dispatchEvent with typed attributes and return variation key', function() {
@@ -573,7 +567,6 @@ describe('lib/optimizely', function() {
 
         sinon.assert.calledOnce(bucketer.bucket);
         sinon.assert.calledOnce(eventDispatcher.dispatchEvent);
-        sinon.assert.calledTwice(createdLogger.log);
 
         var expectedObj = {
           url: 'https://logx.optimizely.com/v1/events',
@@ -628,15 +621,14 @@ describe('lib/optimizely', function() {
         var eventDispatcherCall = eventDispatcher.dispatchEvent.args[0];
         assert.deepEqual(eventDispatcherCall[0], expectedObj);
 
-        var logMessage1 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
-                                                'PROJECT_CONFIG',
-                                                'testUser'));
-        var logMessage2 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.DISPATCH_IMPRESSION_EVENT,
-                                               'OPTIMIZELY',
-                                               expectedObj.url,
-                                               JSON.stringify(expectedObj.params)));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
+            'PROJECT_CONFIG',
+            'testUser'));
+
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.DISPATCH_IMPRESSION_EVENT,
+            'OPTIMIZELY',
+            expectedObj.url,
+            JSON.stringify(expectedObj.params)));
       });
 
       describe('when experiment_bucket_map attribute is present', function() {
@@ -662,7 +654,6 @@ describe('lib/optimizely', function() {
 
         sinon.assert.calledOnce(bucketer.bucket);
         sinon.assert.calledOnce(eventDispatcher.dispatchEvent);
-        sinon.assert.calledTwice(createdLogger.log);
 
         var expectedObj = {
           url: 'https://logx.optimizely.com/v1/events',
@@ -697,15 +688,14 @@ describe('lib/optimizely', function() {
         var eventDispatcherCall = eventDispatcher.dispatchEvent.args[0];
         assert.deepEqual(eventDispatcherCall[0], expectedObj);
 
-        var logMessage1 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
-                                                'PROJECT_CONFIG',
-                                                'testUser'));
-        var logMessage2 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.DISPATCH_IMPRESSION_EVENT,
-                                               'OPTIMIZELY',
-                                               expectedObj.url,
-                                               JSON.stringify(expectedObj.params)));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
+            'PROJECT_CONFIG',
+            'testUser'));
+
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.DISPATCH_IMPRESSION_EVENT,
+            'OPTIMIZELY',
+            expectedObj.url,
+            JSON.stringify(expectedObj.params)));
       });
 
       it('should call bucketer and dispatchEvent with proper args and return variation key if user is in grouped experiment and is in audience', function() {
@@ -715,7 +705,6 @@ describe('lib/optimizely', function() {
 
         sinon.assert.calledOnce(bucketer.bucket);
         sinon.assert.calledOnce(eventDispatcher.dispatchEvent);
-        sinon.assert.calledTwice(createdLogger.log);
 
         var expectedObj = {
           url: 'https://logx.optimizely.com/v1/events',
@@ -760,45 +749,61 @@ describe('lib/optimizely', function() {
         bucketStub.returns(null);
         assert.isNull(optlyInstance.activate('testExperiment', 'testUser'));
         sinon.assert.notCalled(eventDispatcher.dispatchEvent);
-        sinon.assert.calledTwice(createdLogger.log);
+        sinon.assert.called(createdLogger.log);
 
-        var logMessage1 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
-                                                'PROJECT_CONFIG',
-                                                'testUser'));
-        var logMessage2 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.NOT_ACTIVATING_USER,
-                                               'OPTIMIZELY',
-                                               'testUser',
-                                               'testExperiment'));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
+            'PROJECT_CONFIG',
+            'testUser'));
+
+
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.INFO, sprintf(LOG_MESSAGES.NOT_ACTIVATING_USER,
+            'OPTIMIZELY',
+            'testUser',
+            'testExperiment'));
       });
 
       it('should return null if user is not in audience and user is not in group', function() {
         assert.isNull(optlyInstance.activate('testExperimentWithAudiences', 'testUser', {browser_type: 'chrome'}));
-        sinon.assert.callCount(createdLogger.log, 3);
 
-        var logMessage0 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage0, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG', 'testUser'));
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.DEBUG,
+            sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG', 'testUser')
+        );
 
-        var logMessage1 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.USER_NOT_IN_EXPERIMENT, 'DECISION_SERVICE', 'testUser', 'testExperimentWithAudiences'));
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.INFO,
+            sprintf(LOG_MESSAGES.USER_NOT_IN_EXPERIMENT, 'DECISION_SERVICE', 'testUser', 'testExperimentWithAudiences')
+        );
 
-        var logMessage2 = createdLogger.log.args[2][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.NOT_ACTIVATING_USER, 'OPTIMIZELY', 'testUser', 'testExperimentWithAudiences'));
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.INFO  ,
+            sprintf(LOG_MESSAGES.NOT_ACTIVATING_USER, 'OPTIMIZELY', 'testUser', 'testExperimentWithAudiences')
+        );
       });
 
       it('should return null if user is not in audience and user is in group', function() {
         assert.isNull(optlyInstance.activate('groupExperiment1', 'testUser', {browser_type: 'chrome'}));
-        sinon.assert.callCount(createdLogger.log, 3);
 
-        var logMessage0 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage0, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG', 'testUser'));
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.DEBUG,
+            sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG', 'testUser')
+        );
 
-        var logMessage1 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.USER_NOT_IN_EXPERIMENT, 'DECISION_SERVICE', 'testUser', 'groupExperiment1'));
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.INFO,
+            sprintf(LOG_MESSAGES.USER_NOT_IN_EXPERIMENT, 'DECISION_SERVICE', 'testUser', 'groupExperiment1')
+        );
 
-        var logMessage2 = createdLogger.log.args[2][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.NOT_ACTIVATING_USER, 'OPTIMIZELY', 'testUser', 'groupExperiment1'));
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.INFO  ,
+            sprintf(LOG_MESSAGES.NOT_ACTIVATING_USER, 'OPTIMIZELY', 'testUser', 'groupExperiment1')
+        );
       });
 
       it('should return null if experiment is not running', function() {
@@ -1003,16 +1008,14 @@ describe('lib/optimizely', function() {
         var eventDispatcherCall = eventDispatcher.dispatchEvent.args[0];
         assert.deepEqual(eventDispatcherCall[0], expectedObj);
 
-        var logMessage1 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
-                                                'PROJECT_CONFIG',
-                                                'testUser'));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
+            'PROJECT_CONFIG',
+            'testUser'));
 
-        var logMessage2 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
-                                               'OPTIMIZELY',
-                                               expectedObj.url,
-                                               JSON.stringify(expectedObj.params)));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
+            'OPTIMIZELY',
+            expectedObj.url,
+            JSON.stringify(expectedObj.params)));
       });
 
       it('should call bucketer and dispatchEvent with proper args when including null value attributes', function() {
@@ -1021,7 +1024,7 @@ describe('lib/optimizely', function() {
 
         sinon.assert.calledOnce(bucketer.bucket);
         sinon.assert.calledOnce(eventDispatcher.dispatchEvent);
-        sinon.assert.calledTwice(createdLogger.log);
+        sinon.assert.called(createdLogger.log);
 
         var expectedObj = {
           url: 'https://logx.optimizely.com/v1/events',
@@ -1060,16 +1063,14 @@ describe('lib/optimizely', function() {
         var eventDispatcherCall = eventDispatcher.dispatchEvent.args[0];
         assert.deepEqual(eventDispatcherCall[0], expectedObj);
 
-        var logMessage0 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage0, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
-                                                'PROJECT_CONFIG',
-                                                'testUser'));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
+            'PROJECT_CONFIG',
+            'testUser'));
 
-        var logMessage1 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
-                                               'OPTIMIZELY',
-                                               expectedObj.url,
-                                               JSON.stringify(expectedObj.params)));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
+            'OPTIMIZELY',
+            expectedObj.url,
+            JSON.stringify(expectedObj.params)));
       });
 
       it('should call bucketer and dispatchEvent with proper args when including attributes', function() {
@@ -1078,7 +1079,7 @@ describe('lib/optimizely', function() {
 
         sinon.assert.calledOnce(bucketer.bucket);
         sinon.assert.calledOnce(eventDispatcher.dispatchEvent);
-        sinon.assert.calledTwice(createdLogger.log);
+        sinon.assert.called(createdLogger.log);
 
         var expectedObj = {
           url: 'https://logx.optimizely.com/v1/events',
@@ -1117,16 +1118,14 @@ describe('lib/optimizely', function() {
         var eventDispatcherCall = eventDispatcher.dispatchEvent.args[0];
         assert.deepEqual(eventDispatcherCall[0], expectedObj);
 
-        var logMessage1 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
-                                                'PROJECT_CONFIG',
-                                                'testUser'));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
+            'PROJECT_CONFIG',
+            'testUser'));
 
-        var logMessage2 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
-                                               'OPTIMIZELY',
-                                               expectedObj.url,
-                                               JSON.stringify(expectedObj.params)));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
+            'OPTIMIZELY',
+            expectedObj.url,
+            JSON.stringify(expectedObj.params)));
       });
 
       it('should call bucketer and dispatchEvent with proper args when including event tags', function() {
@@ -1135,7 +1134,7 @@ describe('lib/optimizely', function() {
 
         sinon.assert.calledOnce(bucketer.bucket);
         sinon.assert.calledOnce(eventDispatcher.dispatchEvent);
-        sinon.assert.calledTwice(createdLogger.log);
+        sinon.assert.called(createdLogger.log);
 
         var expectedObj = {
           url: 'https://logx.optimizely.com/v1/events',
@@ -1172,15 +1171,14 @@ describe('lib/optimizely', function() {
         var eventDispatcherCall = eventDispatcher.dispatchEvent.args[0];
         assert.deepEqual(eventDispatcherCall[0], expectedObj);
 
-        var logMessage1 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
-                                                'PROJECT_CONFIG',
-                                                'testUser'));
-        var logMessage2 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
-                                               'OPTIMIZELY',
-                                               expectedObj.url,
-                                               JSON.stringify(expectedObj.params)));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
+            'PROJECT_CONFIG',
+            'testUser'));
+
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
+            'OPTIMIZELY',
+            expectedObj.url,
+            JSON.stringify(expectedObj.params)));
       });
 
       it('should call bucketer and dispatchEvent with proper args when including event tags and revenue', function() {
@@ -1189,7 +1187,7 @@ describe('lib/optimizely', function() {
 
         sinon.assert.calledOnce(bucketer.bucket);
         sinon.assert.calledOnce(eventDispatcher.dispatchEvent);
-        sinon.assert.calledThrice(createdLogger.log);
+        sinon.assert.called(createdLogger.log);
 
         var expectedObj = {
           url: 'https://logx.optimizely.com/v1/events',
@@ -1228,19 +1226,18 @@ describe('lib/optimizely', function() {
         var eventDispatcherCall = eventDispatcher.dispatchEvent.args[0];
         assert.deepEqual(eventDispatcherCall[0], expectedObj);
 
-        var logMessage0 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage0, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
-                                                'PROJECT_CONFIG',
-                                                'testUser'));
-        var logMessage1 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.PARSED_REVENUE_VALUE,
-                                               'EVENT_TAG_UTILS',
-                                               '4200'));
-        var logMessage2 = createdLogger.log.args[2][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
-                                               'OPTIMIZELY',
-                                               expectedObj.url,
-                                               JSON.stringify(expectedObj.params)));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
+            'PROJECT_CONFIG',
+            'testUser'));
+
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.INFO, sprintf(LOG_MESSAGES.PARSED_REVENUE_VALUE,
+            'EVENT_TAG_UTILS',
+            '4200'));
+
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
+            'OPTIMIZELY',
+            expectedObj.url,
+            JSON.stringify(expectedObj.params)));
       });
 
       it('should call bucketer and dispatchEvent with proper args when including event tags and null event tag values and revenue', function() {
@@ -1249,7 +1246,7 @@ describe('lib/optimizely', function() {
 
         sinon.assert.calledOnce(bucketer.bucket);
         sinon.assert.calledOnce(eventDispatcher.dispatchEvent);
-        sinon.assert.calledThrice(createdLogger.log);
+        sinon.assert.called(createdLogger.log);
 
         var expectedObj = {
           url: 'https://logx.optimizely.com/v1/events',
@@ -1288,20 +1285,18 @@ describe('lib/optimizely', function() {
         var eventDispatcherCall = eventDispatcher.dispatchEvent.args[0];
         assert.deepEqual(eventDispatcherCall[0], expectedObj);
 
-        var logMessage0 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage0, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
-                                                'PROJECT_CONFIG',
-                                                'testUser'));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION,
+            'PROJECT_CONFIG',
+            'testUser'));
 
-        var logMessage1 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.PARSED_REVENUE_VALUE,
-                                               'EVENT_TAG_UTILS',
-                                               '4200'));
-        var logMessage2 = createdLogger.log.args[2][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
-                                               'OPTIMIZELY',
-                                               expectedObj.url,
-                                               JSON.stringify(expectedObj.params)));
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.INFO, sprintf(LOG_MESSAGES.PARSED_REVENUE_VALUE,
+            'EVENT_TAG_UTILS',
+            '4200'));
+
+        sinon.assert.calledWithExactly(createdLogger.log, LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
+            'OPTIMIZELY',
+            expectedObj.url,
+            JSON.stringify(expectedObj.params)));
       });
 
       it('should call bucketer and dispatchEvent with proper args when including invalid event value', function() {
@@ -1331,16 +1326,30 @@ describe('lib/optimizely', function() {
         optlyInstance.track('testEventWithAudiences', 'testUser', {browser_type: 'chrome'});
         sinon.assert.notCalled(bucketer.bucket);
         sinon.assert.notCalled(eventDispatcher.dispatchEvent);
+        sinon.assert.called(createdLogger.log);
 
-        sinon.assert.callCount(createdLogger.log, 4);
-        var logMessage0 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage0, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG', 'testUser'));
-        var logMessage1 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.USER_NOT_IN_EXPERIMENT, 'DECISION_SERVICE', 'testUser', 'testExperimentWithAudiences'));
-        var logMessage2 = createdLogger.log.args[2][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.NOT_TRACKING_USER_FOR_EXPERIMENT, 'OPTIMIZELY', 'testUser', 'testExperimentWithAudiences'));
-        var logMessage3 = createdLogger.log.args[3][1];
-        assert.strictEqual(logMessage3, sprintf(LOG_MESSAGES.EVENT_NOT_ASSOCIATED_WITH_EXPERIMENTS, 'OPTIMIZELY', 'testEventWithAudiences'));
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.DEBUG, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG','testUser')
+        );
+
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.INFO,
+            sprintf(LOG_MESSAGES.USER_NOT_IN_EXPERIMENT, 'DECISION_SERVICE', 'testUser', 'testExperimentWithAudiences')
+        );
+
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.DEBUG,
+            sprintf(LOG_MESSAGES.NOT_TRACKING_USER_FOR_EXPERIMENT, 'OPTIMIZELY', 'testUser', 'testExperimentWithAudiences')
+        );
+
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.WARNING,
+            sprintf(LOG_MESSAGES.EVENT_NOT_ASSOCIATED_WITH_EXPERIMENTS, 'OPTIMIZELY', 'testEventWithAudiences')
+        );
       });
 
       it('should not track a user when the event has no associated experiments', function() {
@@ -1356,10 +1365,19 @@ describe('lib/optimizely', function() {
         bucketStub.returns(null);
         optlyInstance.track('testEvent', 'testUser');
         sinon.assert.notCalled(eventDispatcher.dispatchEvent);
-        var logMessage0 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage0, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG', 'testUser'));
-        var logMessage1 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.NOT_TRACKING_USER_FOR_EXPERIMENT, 'OPTIMIZELY', 'testUser', 'testExperiment'));
+        sinon.assert.called(createdLogger.log);
+
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.DEBUG,
+            sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG', 'testUser')
+        );
+
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.DEBUG,
+            sprintf(LOG_MESSAGES.NOT_TRACKING_USER_FOR_EXPERIMENT, 'OPTIMIZELY', 'testUser', 'testExperiment')
+        );
       });
 
       it('should only send conversion events in experiments the user is bucketed into', function() {
@@ -1425,19 +1443,35 @@ describe('lib/optimizely', function() {
         var eventDispatcherCall = eventDispatcher.dispatchEvent.args[0];
         assert.deepEqual(eventDispatcherCall[0], expectedObj);
 
-        var logMessage0 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage0, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG', 'testUser'));
-        var logMessage1 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG', 'testUser'));
-        var logMessage2 = createdLogger.log.args[2][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.EXPERIMENT_NOT_RUNNING, 'DECISION_SERVICE', 'testExperimentNotRunning'));
-        var logMessage3 = createdLogger.log.args[3][1];
-        assert.strictEqual(logMessage3, sprintf(LOG_MESSAGES.NOT_TRACKING_USER_FOR_EXPERIMENT, 'OPTIMIZELY', 'testUser', 'testExperimentNotRunning'));
-        var logMessage4 = createdLogger.log.args[4][1];
-        assert.strictEqual(logMessage4, sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
-                                                'OPTIMIZELY',
-                                                expectedObj.url,
-                                                JSON.stringify(expectedObj.params)));
+        sinon.assert.called(createdLogger.log);
+
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.DEBUG,
+            sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG', 'testUser')
+        );
+
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.INFO,
+            sprintf(LOG_MESSAGES.EXPERIMENT_NOT_RUNNING, 'DECISION_SERVICE', 'testExperimentNotRunning')
+        );
+
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.DEBUG,
+            sprintf(LOG_MESSAGES.NOT_TRACKING_USER_FOR_EXPERIMENT, 'OPTIMIZELY', 'testUser', 'testExperimentNotRunning')
+        );
+
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.DEBUG,
+            sprintf(LOG_MESSAGES.DISPATCH_CONVERSION_EVENT,
+                'OPTIMIZELY',
+                expectedObj.url,
+                JSON.stringify(expectedObj.params)
+            )
+        );
       });
 
       it('should throw an error for invalid user ID', function() {
@@ -1607,7 +1641,13 @@ describe('lib/optimizely', function() {
         assert.strictEqual(getVariation, 'variation');
 
         sinon.assert.calledOnce(bucketer.bucket);
-        sinon.assert.calledOnce(createdLogger.log);
+        sinon.assert.called(createdLogger.log);
+
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.DEBUG,
+            sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG', 'testUser')
+        );
       });
 
       it('should call bucketer and return variation key with attributes', function() {
@@ -1619,7 +1659,7 @@ describe('lib/optimizely', function() {
         assert.strictEqual(getVariation, 'variationWithAudience');
 
         sinon.assert.calledOnce(bucketer.bucket);
-        sinon.assert.calledOnce(createdLogger.log);
+        sinon.assert.called(createdLogger.log);
       });
 
       it('should return null if user is not in audience or experiment is not running', function() {
@@ -1630,14 +1670,25 @@ describe('lib/optimizely', function() {
         assert.isNull(getVariationReturnsNull2);
 
         sinon.assert.notCalled(bucketer.bucket);
-        sinon.assert.calledThrice(createdLogger.log);
+        sinon.assert.called(createdLogger.log);
 
-        var logMessage0 = createdLogger.log.args[0][1];
-        assert.strictEqual(logMessage0, sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG', 'testUser'));
-        var logMessage1 = createdLogger.log.args[1][1];
-        assert.strictEqual(logMessage1, sprintf(LOG_MESSAGES.USER_NOT_IN_EXPERIMENT, 'DECISION_SERVICE', 'testUser', 'testExperimentWithAudiences'));
-        var logMessage2 = createdLogger.log.args[2][1];
-        assert.strictEqual(logMessage2, sprintf(LOG_MESSAGES.EXPERIMENT_NOT_RUNNING, 'DECISION_SERVICE', 'testExperimentNotRunning'));
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.DEBUG,
+            sprintf(LOG_MESSAGES.USER_HAS_NO_FORCED_VARIATION, 'PROJECT_CONFIG', 'testUser')
+        );
+
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.INFO,
+            sprintf(LOG_MESSAGES.USER_NOT_IN_EXPERIMENT, 'DECISION_SERVICE', 'testUser', 'testExperimentWithAudiences')
+        );
+
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.INFO,
+            sprintf(LOG_MESSAGES.EXPERIMENT_NOT_RUNNING, 'DECISION_SERVICE', 'testExperimentNotRunning')
+        );
       });
 
       it('should throw an error for invalid user ID', function() {
@@ -3523,7 +3574,8 @@ describe('lib/optimizely', function() {
         audienceEvaluator.evaluate,
         optlyInstance.configObj.experiments[2].audienceConditions,
         optlyInstance.configObj.audiencesById,
-        { house: 'Welcome to Slytherin!', lasers: 45.5 }
+        { house: 'Welcome to Slytherin!', lasers: 45.5 },
+        createdLogger
       );
     });
 
@@ -3540,7 +3592,8 @@ describe('lib/optimizely', function() {
         audienceEvaluator.evaluate,
         optlyInstance.configObj.experiments[2].audienceConditions,
         optlyInstance.configObj.audiencesById,
-        { house: 'Hufflepuff', lasers: 45.5 }
+        { house: 'Hufflepuff', lasers: 45.5 },
+        createdLogger
       );
     });
 
@@ -3563,7 +3616,8 @@ describe('lib/optimizely', function() {
         audienceEvaluator.evaluate,
         optlyInstance.configObj.experiments[2].audienceConditions,
         optlyInstance.configObj.audiencesById,
-        { house: 'Gryffindor', should_do_it: true }
+        { house: 'Gryffindor', should_do_it: true },
+        createdLogger
       );
     });
 
@@ -3579,7 +3633,8 @@ describe('lib/optimizely', function() {
         audienceEvaluator.evaluate,
         optlyInstance.configObj.experiments[2].audienceConditions,
         optlyInstance.configObj.audiencesById,
-        { house: 'Gryffindor', should_do_it: false }
+        { house: 'Gryffindor', should_do_it: false },
+        createdLogger
       );
     });
 
@@ -3595,7 +3650,8 @@ describe('lib/optimizely', function() {
         audienceEvaluator.evaluate,
         optlyInstance.configObj.rollouts[2].experiments[0].audienceConditions,
         optlyInstance.configObj.audiencesById,
-        { house: '...Slytherinnn...sss.', favorite_ice_cream: 'matcha' }
+        { house: '...Slytherinnn...sss.', favorite_ice_cream: 'matcha' },
+        createdLogger
       );
     });
 
@@ -3610,7 +3666,8 @@ describe('lib/optimizely', function() {
         audienceEvaluator.evaluate,
         optlyInstance.configObj.rollouts[2].experiments[0].audienceConditions,
         optlyInstance.configObj.audiencesById,
-        { house: 'Lannister' }
+        { house: 'Lannister' },
+        createdLogger
       );
     });
 
@@ -3626,7 +3683,8 @@ describe('lib/optimizely', function() {
         audienceEvaluator.evaluate,
         optlyInstance.configObj.experiments[3].audienceConditions,
         optlyInstance.configObj.audiencesById,
-        { house: 'Gryffindor', lasers: 700 }
+        { house: 'Gryffindor', lasers: 700 },
+        createdLogger
       );
     });
 
@@ -3639,7 +3697,8 @@ describe('lib/optimizely', function() {
         audienceEvaluator.evaluate,
         optlyInstance.configObj.experiments[3].audienceConditions,
         optlyInstance.configObj.audiencesById,
-        {}
+        {},
+        createdLogger
       );
     });
   });
