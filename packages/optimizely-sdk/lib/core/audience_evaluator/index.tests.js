@@ -15,6 +15,7 @@
  */
 var audienceEvaluator = require('./');
 var chai = require('chai');
+var sprintf = require('sprintf-js').sprintf;
 var conditionTreeEvaluator = require('../condition_tree_evaluator');
 var customAttributeConditionEvaluator = require('../custom_attribute_condition_evaluator');
 var sinon = require('sinon');
@@ -202,6 +203,85 @@ describe('lib/core/audience_evaluator', function() {
           sinon.assert.calledOnce(customAttributeConditionEvaluator.evaluate);
           sinon.assert.calledWithExactly(customAttributeConditionEvaluator.evaluate, iphoneUserAudience.conditions[1], userAttributes, mockLogger);
           assert.isFalse(result);
+        });
+      });
+
+      describe('Audience evaluation logging', function() {
+        var sandbox = sinon.sandbox.create();
+
+        beforeEach(function() {
+          sandbox.stub(conditionTreeEvaluator, 'evaluate');
+          sandbox.stub(customAttributeConditionEvaluator, 'evaluate');
+        });
+
+        afterEach(function() {
+          sandbox.restore();
+        });
+
+        it('returns false if conditionTreeEvaluator.evaluate returns null', function() {
+          conditionTreeEvaluator.evaluate.callsFake(function(conditions, leafEvaluator) {
+            return leafEvaluator(conditions[1]);
+          });
+          customAttributeConditionEvaluator.evaluate.returns(null);
+          var userAttributes = { device_model: 5.5 };
+          var result = audienceEvaluator.evaluate(['or', '1'], audiencesById, userAttributes, mockLogger);
+          sinon.assert.calledOnce(customAttributeConditionEvaluator.evaluate);
+          sinon.assert.calledWithExactly(customAttributeConditionEvaluator.evaluate, iphoneUserAudience.conditions[1], userAttributes, mockLogger);
+          assert.isFalse(result);
+          assert.strictEqual(3, mockLogger.log.callCount);
+          assert.strictEqual(mockLogger.log.args[0][1], sprintf('AUDIENCE_EVALUATOR: User attributes: "%s".', { device_model: 5.5 }));
+          assert.strictEqual(
+            mockLogger.log.args[1][1],
+            sprintf(
+              'AUDIENCE_EVALUATOR: Starting to evaluate audience "1" with conditions: "%s".',
+              [ 'and',{ name: 'device_model', value: 'iphone', type: 'custom_attribute' } ]
+            )
+          );
+          assert.strictEqual(mockLogger.log.args[2][1], 'AUDIENCE_EVALUATOR: Audience "1" evaluated as UNKNOWN.');
+        });
+
+        it('returns true if conditionTreeEvaluator.evaluate returns true', function() {
+          conditionTreeEvaluator.evaluate.callsFake(function(conditions, leafEvaluator) {
+            return leafEvaluator(conditions[1]);
+          });
+          customAttributeConditionEvaluator.evaluate.returns(true);
+          var userAttributes = { device_model: 'iphone' };
+          var result = audienceEvaluator.evaluate(['or', '1'], audiencesById, userAttributes, mockLogger);
+          sinon.assert.calledOnce(customAttributeConditionEvaluator.evaluate);
+          sinon.assert.calledWithExactly(customAttributeConditionEvaluator.evaluate, iphoneUserAudience.conditions[1], userAttributes, mockLogger);
+          assert.isTrue(result);
+          assert.strictEqual(3, mockLogger.log.callCount);
+          assert.strictEqual(mockLogger.log.args[0][1], sprintf('AUDIENCE_EVALUATOR: User attributes: "%s".', { device_model: 'iphone' }));
+          assert.strictEqual(
+            mockLogger.log.args[1][1],
+            sprintf(
+              'AUDIENCE_EVALUATOR: Starting to evaluate audience "1" with conditions: "%s".',
+              [ 'and',{ name: 'device_model', value: 'iphone', type: 'custom_attribute' } ]
+            )
+          );
+          assert.strictEqual(mockLogger.log.args[2][1], 'AUDIENCE_EVALUATOR: Audience "1" evaluated as true.');
+        });
+
+        it('returns false if conditionTreeEvaluator.evaluate returns false', function() {
+          conditionTreeEvaluator.evaluate.callsFake(function(conditions, leafEvaluator) {
+            return leafEvaluator(conditions[1]);
+          });
+          customAttributeConditionEvaluator.evaluate.returns(false);
+          var userAttributes = { device_model: 'android' };
+          var result = audienceEvaluator.evaluate(['or', '1'], audiencesById, userAttributes, mockLogger);
+          sinon.assert.calledOnce(customAttributeConditionEvaluator.evaluate);
+          sinon.assert.calledWithExactly(customAttributeConditionEvaluator.evaluate, iphoneUserAudience.conditions[1], userAttributes, mockLogger);
+          assert.isFalse(result);
+          assert.strictEqual(3, mockLogger.log.callCount);
+          assert.strictEqual(mockLogger.log.args[0][1], sprintf('AUDIENCE_EVALUATOR: User attributes: "%s".', { device_model: 'android' }));
+          assert.strictEqual(
+            mockLogger.log.args[1][1],
+            sprintf(
+              'AUDIENCE_EVALUATOR: Starting to evaluate audience "1" with conditions: "%s".',
+              [ 'and',{ name: 'device_model', value: 'iphone', type: 'custom_attribute' } ]
+            )
+          );
+          assert.strictEqual(mockLogger.log.args[2][1], 'AUDIENCE_EVALUATOR: Audience "1" evaluated as false.');
         });
       });
     });

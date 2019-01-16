@@ -314,12 +314,12 @@ describe('lib/optimizely', function() {
 
       assert.strictEqual(activate, 'variation');
       eventDispatcherPromise.then(function() {
-        var logMessage = createdLogger.log.args[3][1];
         //checking that we executed our callback after resolving the promise
-        assert.strictEqual(logMessage, sprintf(LOG_MESSAGES.ACTIVATE_USER,
-                                               'OPTIMIZELY',
-                                               'testUser',
-                                               'testExperiment'));
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.INFO,
+            sprintf(LOG_MESSAGES.ACTIVATE_USER, 'OPTIMIZELY', 'testUser', 'testExperiment')
+        );
         done();
       });
     });
@@ -342,11 +342,11 @@ describe('lib/optimizely', function() {
       instance.track('testEvent', 'testUser');
       //checking that we executed our callback after resolving the promise
       eventDispatcherPromise.then(function() {
-        var logMessage = createdLogger.log.args[6][1];
-        assert.strictEqual(logMessage, sprintf(LOG_MESSAGES.TRACK_EVENT,
-                                               'OPTIMIZELY',
-                                               'testEvent',
-                                               'testUser'));
+        sinon.assert.calledWithExactly(
+            createdLogger.log,
+            LOG_LEVEL.INFO,
+            sprintf(LOG_MESSAGES.TRACK_EVENT, 'OPTIMIZELY', 'testEvent', 'testUser')
+        );
         done();
       });
     });
