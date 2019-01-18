@@ -14,13 +14,17 @@
  * limitations under the License.                                           *
  ***************************************************************************/
 
-var chai = require('chai');
 var customAttributeEvaluator = require('./');
-var logger = require('../../plugins/logger');
 var enums = require('../../utils/enums');
-var LOG_LEVEL = enums.LOG_LEVEL;
+var logger = require('../../plugins/logger');
+var sprintf = require('sprintf-js').sprintf;
 
+var chai = require('chai');
+var sinon = require('sinon');
 var assert = chai.assert;
+
+var LOG_LEVEL = enums.LOG_LEVEL;
+var LOG_MESSAGES = enums.LOG_MESSAGES;
 
 var browserConditionSafari = {
   name: 'browser_type',
@@ -46,12 +50,21 @@ var doubleCondition = {
 describe('lib/core/custom_attribute_condition_evaluator', function() {
   var mockLogger = logger.createLogger({logLevel: LOG_LEVEL.INFO});
 
+  beforeEach(function () {
+    sinon.stub(mockLogger, 'log');
+  });
+
+  afterEach(function () {
+    mockLogger.log.restore();
+  });
+
   it('should return true when the attributes pass the audience conditions and no match type is provided', function() {
     var userAttributes = {
       browser_type: 'safari',
     };
 
     assert.isTrue(customAttributeEvaluator.evaluate(browserConditionSafari, userAttributes, mockLogger));
+    sinon.assert.notCalled(mockLogger.log);
   });
 
   it('should return false when the attributes do not pass the audience conditions and no match type is provided', function() {
