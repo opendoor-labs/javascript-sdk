@@ -75,11 +75,11 @@ describe('lib/core/decision_service', function() {
 
       it('should return null if the user does not meet audience conditions', function () {
         assert.isNull(decisionServiceInstance.getVariation('testExperimentWithAudiences', 'user3', {foo: 'bar'}));
-        assert.strictEqual(9, mockLogger.log.callCount);
+        assert.strictEqual(8, mockLogger.log.callCount);
         assert.strictEqual(mockLogger.log.args[0][1], 'PROJECT_CONFIG: User user3 is not in the forced variation map.');
         assert.strictEqual(mockLogger.log.args[1][1], 'DECISION_SERVICE: Evaluating audiences for experiment "testExperimentWithAudiences": "11154".');
-        assert.strictEqual(mockLogger.log.args[7][1], 'DECISION_SERVICE: Audiences for experiment testExperimentWithAudiences collectively evaluated as false.');
-        assert.strictEqual(mockLogger.log.args[8][1], 'DECISION_SERVICE: User user3 does not meet conditions to be in experiment testExperimentWithAudiences.');
+        assert.strictEqual(mockLogger.log.args[6][1], 'DECISION_SERVICE: Audiences for experiment testExperimentWithAudiences collectively evaluated as false.');
+        assert.strictEqual(mockLogger.log.args[7][1], 'DECISION_SERVICE: User user3 does not meet conditions to be in experiment testExperimentWithAudiences.');
       });
 
       it('should return null if the experiment is not running', function () {

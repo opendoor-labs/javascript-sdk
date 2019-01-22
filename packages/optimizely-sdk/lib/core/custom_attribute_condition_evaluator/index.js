@@ -70,6 +70,7 @@ function evaluate(condition, userAttributes, logger) {
   var attributeKey = condition.name;
   if (!userAttributes.hasOwnProperty(attributeKey) && conditionMatch != EXISTS_MATCH_TYPE) {
     logger.log(LOG_LEVEL.WARNING, sprintf(LOG_MESSAGES.MISSING_ATTRIBUTE_VALUE, MODULE_NAME, condition, attributeKey));
+    return null;
   }
 
   var evaluatorForMatch = EVALUATORS_BY_MATCH_TYPE[conditionMatch] || exactEvaluator;
@@ -109,14 +110,8 @@ function exactEvaluator(condition, userAttributes, logger) {
     return null;
   }
 
-  if (!isValueValidForExactConditions(userValue)) {
-    logger.log(LOG_LEVEL.WARNING, sprintf(LOG_MESSAGES.UNEXPECTED_TYPE, MODULE_NAME, condition, conditionName, userValue));
-    return null;
-  }
-    
-  if (conditionValueType !== userValueType) {
-    logger.log(LOG_LEVEL.WARNING, sprintf(LOG_MESSAGES.MISMATCH_TYPE, MODULE_NAME, condition, conditionName,
-      userValueType, conditionValueType));
+  if (!isValueValidForExactConditions(userValue) || conditionValueType !== userValueType) {
+    logger.log(LOG_LEVEL.WARNING, sprintf(LOG_MESSAGES.UNEXPECTED_TYPE, MODULE_NAME, condition, userValueType, conditionName));
     return null;
   }
 

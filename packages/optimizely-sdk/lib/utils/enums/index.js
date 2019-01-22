@@ -130,12 +130,11 @@ exports.LOG_MESSAGES = {
   AUDIENCE_EVALUATION_RESULT_COMBINED: '%s: Audiences for experiment %s collectively evaluated as %s.',
   EVALUATING_AUDIENCES: '%s: Evaluating audiences for experiment "%s": "%s".',
   EVALUATING_AUDIENCE_WITH_CONDITIONS: '%s: Starting to evaluate audience "%s" with conditions: "%s".',
-  MISMATCH_TYPE: '%s: Audience condition %s evaluated as UNKNOWN because the type of user attribute "%s" is "%s" while expected is "%s".',
   MISSING_ATTRIBUTE_VALUE: '%s: Audience condition %s evaluated as UNKNOWN because no value was passed for user attribute "%s".',
   NO_AUDIENCE_ATTACHED: '%s: No Audience attached to experiment "%s". Evaluated as True.',
-  UNEXPECTED_TYPE: '%s: Audience condition %s evaluated as UNKNOWN because the value for user attribute "%s" is inapplicable: "%s".',
-  UNKNOWN_CONDITION_TYPE: '%s: Audience condition "%s" has an unknown condition type.',
-  UNKNOWN_MATCH_TYPE: '%s: Audience condition "%s" uses an unknown match type.',
+  UNEXPECTED_TYPE: '%s: Audience condition %s evaluated as UNKNOWN because a value of type "%s" was passed for user attribute "%s".',
+  UNKNOWN_CONDITION_TYPE: '%s: Audience condition "%s" has an unknown condition type. You may need to upgrade to a newer release of the Optimizely SDK.',
+  UNKNOWN_MATCH_TYPE: '%s: Audience condition "%s" has an unknown match type. You may need to upgrade to a newer release of the Optimizely SDK.',
   USER_ATTRIBUTES: '%s: User attributes: "%s".',
 };
 
