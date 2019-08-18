@@ -17,7 +17,7 @@ var projectConfig = require('./');
 var enums = require('../../utils/enums');
 var testDatafile = require('../../tests/test_data');
 var configValidator = require('../../utils/config_validator');
-var logging = require('@optimizely/js-sdk-logging');
+var logging = require('@opendoor/optimizely-js-sdk-logging');
 
 var logger = logging.getLogger();
 
@@ -27,7 +27,7 @@ var chai = require('chai');
 var assert = chai.assert;
 var loggerPlugin = require('../../plugins/logger');
 var sinon = require('sinon');
-var sprintf = require('@optimizely/js-sdk-utils').sprintf;
+var sprintf = require('@opendoor/optimizely-js-sdk-utils').sprintf;
 
 var ERROR_MESSAGES = enums.ERROR_MESSAGES;
 var FEATURE_VARIABLE_TYPES = enums.FEATURE_VARIABLE_TYPES;

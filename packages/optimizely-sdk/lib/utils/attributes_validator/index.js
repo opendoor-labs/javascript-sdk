@@ -18,7 +18,7 @@
  * Provides utility method for validating that the attributes user has provided are valid
  */
 
-var sprintf = require('@optimizely/js-sdk-utils').sprintf;
+var sprintf = require('@opendoor/optimizely-js-sdk-utils').sprintf;
 var lodashForOwn = require('lodash/forOwn');
 var fns = require('../../utils/fns');
 

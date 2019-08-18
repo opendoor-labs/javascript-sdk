@@ -5,7 +5,7 @@ Provides a centralized LogManager and errorHandler for Javascript SDK packages.
 ## Installation
 
 ```sh
-npm install @optimizely/js-sdk-logging
+npm install @opendoor/optimizely-js-sdk-logging
 ```
 
 ## Architecture
@@ -25,7 +25,7 @@ npm install @optimizely/js-sdk-logging
 #### Using the logger
 
 ```typescript
-import { getLogger } from '@optimizely/js-sdk-logging'
+import { getLogger } from '@opendoor/optimizely-js-sdk-logging'
 
 const logger = getLogger('myModule')
 logger.log('warn', 'this is a warning')
@@ -50,7 +50,7 @@ logger.error(ex)
 #### Setting the log level
 
 ```typescript
-import { LogLevel, setLogLevel } from '@optimizely/js-sdk-logging'
+import { LogLevel, setLogLevel } from '@opendoor/optimizely-js-sdk-logging'
 
 // can use enum
 setLogLevel(LogLevel.ERROR)
@@ -66,7 +66,7 @@ setLogLevel('error')
 #### Setting a LogHandler
 
 ```typescript
-import { setLogHandler, ConsoleLogHandler } from '@optimizely/js-sdk-logging'
+import { setLogHandler, ConsoleLogHandler } from '@opendoor/optimizely-js-sdk-logging'
 
 const handler = new ConsoleLogHandler({
   logLevel: 'error',
@@ -92,7 +92,7 @@ interface LogHandler {
 
 ```js
 import winston from 'winston'
-import { setLogHandler, LogLevel } from '@optimizely/js-sdk-logging'
+import { setLogHandler, LogLevel } from '@opendoor/optimizely-js-sdk-logging'
 
 const winstonLogger = winston.createLogger({
   level: 'info',

@@ -18,9 +18,9 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@optimizely/js-sdk-utils@^0.1.0":
+"@opendoor/optimizely-js-sdk-utils@^0.1.0":
   version "0.1.0"
-  resolved "https://optimizely.jfrog.io/optimizely/api/npm/npm-local/@optimizely/js-sdk-utils/-/@optimizely/js-sdk-utils-0.1.0.tgz#4855b2dc928692010b6a86409074d0fc400ad443"
+  resolved "https://optimizely.jfrog.io/optimizely/api/npm/npm-local/@opendoor/optimizely-js-sdk-utils/-/@opendoor/optimizely-js-sdk-utils-0.1.0.tgz#4855b2dc928692010b6a86409074d0fc400ad443"
   integrity sha1-SFWy3JKGkgELaoZAkHTQ/EAK1EM=
   dependencies:
     uuid "^3.3.2"

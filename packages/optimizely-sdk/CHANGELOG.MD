@@ -34,7 +34,7 @@ Changes that have landed but are not yet released.
 
   #### Create an instance with datafile management enabled
   ```js
-  const optimizely = require('@optimizely/optimizely-sdk');
+  const optimizely = require('@opendoor/optimizely-sdk');
   const optimizelyClientInstance = optimizely.createInstance({
     sdkKey: '12345', // Provide the sdkKey of your desired environment here
   });
@@ -42,7 +42,7 @@ Changes that have landed but are not yet released.
 
   #### Use `onReady` to wait until optimizelyClientInstance has a datafile
   ```js
-  const optimizely = require('@optimizely/optimizely-sdk');
+  const optimizely = require('@opendoor/optimizely-sdk');
   const optimizelyClientInstance = optimizely.createInstance({
     sdkKey: '12345',
   });
@@ -53,7 +53,7 @@ Changes that have landed but are not yet released.
 
   #### Enable automatic updates, add notification listener for OPTIMIZELY_CONFIG_UPDATE notification type, and stop automatic updates
   ```js
-  const optimizely = require('@optimizely/optimizely-sdk');
+  const optimizely = require('@opendoor/optimizely-sdk');
   const optimizelyClientInstance = optimizely.createInstance({
     sdkKey: '12345',
     datafileOptions: {
@@ -109,7 +109,7 @@ Changes that have landed but are not yet released.
 
   #### Create an instance with datafile management enabled
   ```js
-  const optimizely = require('@optimizely/optimizely-sdk');
+  const optimizely = require('@opendoor/optimizely-sdk');
   const optimizelyClientInstance = optimizely.createInstance({
     sdkKey: '12345', // Provide the sdkKey of your desired environment here
   });
@@ -117,7 +117,7 @@ Changes that have landed but are not yet released.
 
   #### Use `onReady` to wait until optimizelyClientInstance has a datafile
   ```js
-  const optimizely = require('@optimizely/optimizely-sdk');
+  const optimizely = require('@opendoor/optimizely-sdk');
   const optimizelyClientInstance = optimizely.createInstance({
     sdkKey: '12345',
   });
@@ -128,7 +128,7 @@ Changes that have landed but are not yet released.
 
   #### Enable automatic updates, add notification listener for OPTIMIZELY_CONFIG_UPDATE notification type, and stop automatic updates
   ```js
-  const optimizely = require('@optimizely/optimizely-sdk');
+  const optimizely = require('@opendoor/optimizely-sdk');
   const optimizelyClientInstance = optimizely.createInstance({
     sdkKey: '12345',
     datafileOptions: {
@@ -167,7 +167,7 @@ different loggers to individual instances of Optimizely, logging behavior may no
 #### Setting a ConsoleLogger
 
 ```js
-var optimizelySDK = require('@optimizely/optimizely-sdk')
+var optimizelySDK = require('@opendoor/optimizely-sdk')
 
 // logger and logLevel are now set on the optimizelySDK singleton
 optimizelySDK.setLogger(optimizelySDK.logging.createLogger())
@@ -181,7 +181,7 @@ optimizelySDK.setLogLevel(optimizelySDK.enums.LOG_LEVEL.ERROR)
 #### Disable logging
 
 ```js
-var optimizelySDK = require('@optimizely/optimizely-sdk')
+var optimizelySDK = require('@opendoor/optimizely-sdk')
 
 optimizelySDK.setLogger(null)
 ```
@@ -206,7 +206,7 @@ different loggers to individual instances of Optimizely, logging behavior may no
 #### Setting a ConsoleLogger
 
 ```js
-var optimizelySDK = require('@optimizely/optimizely-sdk')
+var optimizelySDK = require('@opendoor/optimizely-sdk')
 
 // logger and logLevel are now set on the optimizelySDK singleton
 optimizelySDK.setLogger(optimizelySDK.logging.createLogger())
@@ -220,7 +220,7 @@ optimizelySDK.setLogLevel(optimizely.enums.LOG_LEVEL.ERROR)
 #### Disable logging
 
 ```js
-var optimizelySDK = require('@optimizely/optimizely-sdk')
+var optimizelySDK = require('@opendoor/optimizely-sdk')
 
 optimizelySDK.setLogger(null)
 ```

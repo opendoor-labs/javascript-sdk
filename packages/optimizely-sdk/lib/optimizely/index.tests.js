@@ -22,7 +22,7 @@ var projectConfigManager = require('../core/project_config/project_config_manage
 var enums = require('../utils/enums');
 var eventBuilder = require('../core/event_builder/index.js');
 var eventDispatcher = require('../plugins/event_dispatcher/index.node');
-var eventProcessor = require('@optimizely/js-sdk-event-processor');
+var eventProcessor = require('@opendoor/optimizely-js-sdk-event-processor');
 var errorHandler = require('../plugins/error_handler');
 var fns = require('../utils/fns');
 var jsonSchemaValidator = require('../utils/json_schema_validator');
@@ -31,12 +31,12 @@ var decisionService = require('../core/decision_service');
 var testData = require('../tests/test_data');
 var jsonSchemaValidator = require('../utils/json_schema_validator');
 var projectConfig = require('../core/project_config');
-var logging = require('@optimizely/js-sdk-logging');
+var logging = require('@opendoor/optimizely-js-sdk-logging');
 
 var chai = require('chai');
 var assert = chai.assert;
 var sinon = require('sinon');
-var sprintf = require('@optimizely/js-sdk-utils').sprintf;
+var sprintf = require('@opendoor/optimizely-js-sdk-utils').sprintf;
 var uuid = require('uuid');
 
 var ERROR_MESSAGES = enums.ERROR_MESSAGES;

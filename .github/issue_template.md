@@ -25,7 +25,7 @@ Link to repository that can reproduce the issue: <link>
   If possible, whittle down your issue into a [short, self-contained, correct example](http://sscce.org/).
 -->
 
-**`@optimizely/optimizely-sdk` version:** 
+**`@opendoor/optimizely-sdk` version:** 
 
 <!-- ...and whichever of the following are applicable: -->
 

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 require('promise-polyfill/dist/polyfill');
-var logging = require('@optimizely/js-sdk-logging');
+var logging = require('@opendoor/optimizely-js-sdk-logging');
 var fns = require('./utils/fns');
 var configValidator = require('./utils/config_validator');
 var defaultErrorHandler = require('./plugins/error_handler');
 var defaultEventDispatcher = require('./plugins/event_dispatcher/index.browser');
 var enums = require('./utils/enums');
-var eventProcessor = require('@optimizely/js-sdk-event-processor');
+var eventProcessor = require('@opendoor/optimizely-js-sdk-event-processor');
 var loggerPlugin = require('./plugins/logger');
 var Optimizely = require('./optimizely');
 var eventProcessorConfigValidator = require('./utils/event_processor_config_validator');

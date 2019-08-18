@@ -1,4 +1,4 @@
-# `@optimizely/js-sdk-utils`
+# `@opendoor/optimizely-js-sdk-utils`
 
 A collection of utility functions shared between components of the Javascript SDK.
 

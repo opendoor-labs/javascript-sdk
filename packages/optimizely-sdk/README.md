@@ -1,6 +1,6 @@
 # JavaScript SDK for Optimizely X Full Stack
-[![npm](https://img.shields.io/npm/v/%40optimizely%2Foptimizely-sdk.svg)](https://www.npmjs.com/package/@optimizely/optimizely-sdk)
-[![npm](https://img.shields.io/npm/dm/%40optimizely%2Foptimizely-sdk.svg)](https://www.npmjs.com/package/@optimizely/optimizely-sdk)
+[![npm](https://img.shields.io/npm/v/%40optimizely%2Foptimizely-sdk.svg)](https://www.npmjs.com/package/@opendoor/optimizely-sdk)
+[![npm](https://img.shields.io/npm/dm/%40optimizely%2Foptimizely-sdk.svg)](https://www.npmjs.com/package/@opendoor/optimizely-sdk)
 [![Travis CI](https://img.shields.io/travis/optimizely/javascript-sdk.svg)](https://travis-ci.org/optimizely/javascript-sdk)
 [![Coveralls](https://img.shields.io/coveralls/optimizely/javascript-sdk.svg)](https://coveralls.io/github/optimizely/javascript-sdk)
 [![license](https://img.shields.io/github/license/optimizely/javascript-sdk.svg)](https://choosealicense.com/licenses/apache-2.0/)
@@ -23,10 +23,10 @@ Other environments likely are compatible, too, but note that we don't officially
 - [Cloudflare Workers](https://developers.cloudflare.com/workers/) and [Fly](https://fly.io/), both of which are powered by recent releases of V8.
 - Anywhere else you can think of that might embed a JavaScript engine. The sky is the limit; experiment everywhere! 🚀
 
-Once you've validated that the SDK supports the platforms you're targeting, fetch the package from [NPM](https://www.npmjs.com/package/@optimizely/optimizely-sdk). Using `npm`:
+Once you've validated that the SDK supports the platforms you're targeting, fetch the package from [NPM](https://www.npmjs.com/package/@opendoor/optimizely-sdk). Using `npm`:
 
 ```
-npm install --save @optimizely/optimizely-sdk
+npm install --save @opendoor/optimizely-sdk
 ```
 
 ### Usage
@@ -35,10 +35,10 @@ See the Optimizely X Full Stack [developer documentation](http://developers.opti
 The package's entry point is a CommonJS module, which can be used directly in environments which support it (e.g., Node.js, or loaded in a browser via Browserify or RequireJS). Additionally, you can include a standalone bundle of the SDK in your web page by fetching it from [unpkg](https://unpkg.com/):
 
 ```html
-<script src="https://unpkg.com/@optimizely/optimizely-sdk/dist/optimizely.browser.umd.min.js"></script>
+<script src="https://unpkg.com/@opendoor/optimizely-sdk/dist/optimizely.browser.umd.min.js"></script>
 
 <!-- You can also use the unminified version if necessary -->
-<script src="https://unpkg.com/@optimizely/optimizely-sdk/dist/optimizely.browser.umd.js"></script>
+<script src="https://unpkg.com/@opendoor/optimizely-sdk/dist/optimizely.browser.umd.js"></script>
 ```
 
 When evaluated, that bundle assigns the SDK's exports to `window.optimizelySdk`. If you wish to use the asset locally (for example, if unpkg is down), you can find it in your local copy of the package at dist/optimizely.browser.umd.min.js.
@@ -49,7 +49,7 @@ Regarding `EventDispatcher`s: In Node.js and browser environments, the default `
 
 This version represents a major version change and, as such, introduces some breaking changes:
 
-- The Node.js SDK is now combined with the JavaScript SDK. We now have just one package, `@optimizely/optimizely-sdk`, that works in many JavaScript environments.
+- The Node.js SDK is now combined with the JavaScript SDK. We now have just one package, `@opendoor/optimizely-sdk`, that works in many JavaScript environments.
 
 - We no longer support Node.js < 4.0.0, which collectively [reached end-of-life](https://github.com/nodejs/Release#end-of-life-releases) on 2016-12-31.
 
@@ -123,4 +123,4 @@ To regenerate this, run the following command:
 npx license-checker --production --json | jq 'map_values({ licenses, publisher, repository }) | del(.[][] | nulls)'
 ```
 
-and remove the self (`@optimizely/optimizely-sdk`) entry.
+and remove the self (`@opendoor/optimizely-sdk`) entry.

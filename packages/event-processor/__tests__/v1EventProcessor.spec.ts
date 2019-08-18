@@ -23,7 +23,7 @@ import {
 } from '../src/eventDispatcher'
 import { EventProcessor } from '../src/eventProcessor'
 import { buildImpressionEventV1, makeBatchedEventV1 } from '../src/v1/buildEventV1'
-import { NotificationCenter, NOTIFICATION_TYPES } from '@optimizely/js-sdk-utils';
+import { NotificationCenter, NOTIFICATION_TYPES } from '@opendoor/optimizely-js-sdk-utils';
 
 function createImpressionEvent() {
   return {

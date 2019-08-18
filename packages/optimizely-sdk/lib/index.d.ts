@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-declare module "@optimizely/optimizely-sdk" {
-  import { LogHandler, ErrorHandler } from "@optimizely/js-sdk-logging";
-  import * as enums from "@optimizely/optimizely-sdk/lib/utils/enums";
-  import * as logging from "@optimizely/optimizely-sdk/lib/plugins/logger";
+declare module "@opendoor/optimizely-sdk" {
+  import { LogHandler, ErrorHandler } from "@opendoor/optimizely-js-sdk-logging";
+  import * as enums from "@opendoor/optimizely-sdk/lib/utils/enums";
+  import * as logging from "@opendoor/optimizely-sdk/lib/plugins/logger";
   export { enums, logging };
 
   export function setLogger(logger: LogHandler | null): void;
@@ -216,8 +216,8 @@ declare module "@optimizely/optimizely-sdk" {
   }
 }
 
-declare module "@optimizely/optimizely-sdk/lib/utils/enums" {
-  import { LogLevel } from "@optimizely/js-sdk-logging";
+declare module "@opendoor/optimizely-sdk/lib/utils/enums" {
+  import { LogLevel } from "@opendoor/optimizely-js-sdk-logging";
 
   export { LogLevel as LOG_LEVEL };
 
@@ -229,9 +229,9 @@ declare module "@optimizely/optimizely-sdk/lib/utils/enums" {
   }
 }
 
-declare module "@optimizely/optimizely-sdk/lib/plugins/logger" {
-  import * as enums from "@optimizely/optimizely-sdk/lib/utils/enums";
-  import { LogHandler } from "@optimizely/js-sdk-logging";
+declare module "@opendoor/optimizely-sdk/lib/plugins/logger" {
+  import * as enums from "@opendoor/optimizely-sdk/lib/utils/enums";
+  import { LogHandler } from "@opendoor/optimizely-js-sdk-logging";
 
   export interface LoggerConfig {
     logLevel?: enums.LOG_LEVEL;
@@ -242,8 +242,8 @@ declare module "@optimizely/optimizely-sdk/lib/plugins/logger" {
   export function createNoOpLogger(): LogHandler;
 }
 
-declare module "@optimizely/optimizely-sdk/lib/plugins/event_dispatcher" {}
+declare module "@opendoor/optimizely-sdk/lib/plugins/event_dispatcher" {}
 
-declare module "@optimizely/optimizely-sdk/lib/utils/json_schema_validator" {}
+declare module "@opendoor/optimizely-sdk/lib/utils/json_schema_validator" {}
 
-declare module "@optimizely/optimizely-sdk/lib/plugins/error_handler" {}
+declare module "@opendoor/optimizely-sdk/lib/plugins/error_handler" {}

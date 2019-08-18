@@ -5,13 +5,13 @@ This package provides a datafile manager implementations for Node.js and the bro
 ## Installation
 
 ```sh
-npm install @optimizely/js-sdk-datafile-manager
+npm install @opendoor/optimizely-js-sdk-datafile-manager
 ```
 
 ## Usage
 
 ```js
-const { DatafileManager } = require('@optimizely/js-sdk-datafile-manager')
+const { DatafileManager } = require('@opendoor/optimizely-js-sdk-datafile-manager')
 
 const manager = new DatafileManager({
   sdkKey: '9LCprAQyd1bs1BBXZ3nVji',

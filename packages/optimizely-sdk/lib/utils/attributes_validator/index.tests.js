@@ -15,7 +15,7 @@
  */
 var chai = require('chai');
 var assert = chai.assert;
-var sprintf = require('@optimizely/js-sdk-utils').sprintf;
+var sprintf = require('@opendoor/optimizely-js-sdk-utils').sprintf;
 var attributesValidator = require('./');
 var fns = require('./../fns/');
 

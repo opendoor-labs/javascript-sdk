@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getLogger } from '@optimizely/js-sdk-logging'
+import { getLogger } from '@opendoor/optimizely-js-sdk-logging'
 import { EventDispatcher, EventV1Request, EventDispatcherCallback } from './eventDispatcher'
 import { PendingEventsStore, LocalStorageStore } from './pendingEventsStore'
-import { generateUUID, getTimestamp } from '@optimizely/js-sdk-utils'
+import { generateUUID, getTimestamp } from '@opendoor/optimizely-js-sdk-utils'
 
 const logger = getLogger('EventProcessor')
 

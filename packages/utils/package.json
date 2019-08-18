@@ -1,5 +1,5 @@
 {
-  "name": "@optimizely/js-sdk-utils",
+  "name": "@opendoor/optimizely-js-sdk-utils",
   "version": "0.2.0",
   "description": "Optimizely Full Stack Utils",
   "author": "jordangarcia <jordan@optimizely.com>",

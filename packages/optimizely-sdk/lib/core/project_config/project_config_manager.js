@@ -15,10 +15,10 @@
  */
 
 var fns = require('../../utils/fns');
-var sprintf = require('@optimizely/js-sdk-utils').sprintf;
-var logging = require('@optimizely/js-sdk-logging');
+var sprintf = require('@opendoor/optimizely-js-sdk-utils').sprintf;
+var logging = require('@opendoor/optimizely-js-sdk-logging');
 var configValidator = require('../../utils/config_validator');
-var datafileManager = require('@optimizely/js-sdk-datafile-manager');
+var datafileManager = require('@opendoor/optimizely-js-sdk-datafile-manager');
 var enums = require('../../utils/enums');
 var projectConfig = require('../../core/project_config');
 
@@ -127,10 +127,9 @@ ProjectConfigManager.prototype.__initialize = function(config) {
     }
     this.datafileManager = new datafileManager.HttpPollingDatafileManager(datafileManagerConfig);
     this.datafileManager.start();
-    this.__readyPromise = this.datafileManager.onReady().then(
-      this.__onDatafileManagerReadyFulfill.bind(this),
-      this.__onDatafileManagerReadyReject.bind(this)
-    );
+    this.__readyPromise = this.datafileManager
+      .onReady()
+      .then(this.__onDatafileManagerReadyFulfill.bind(this), this.__onDatafileManagerReadyReject.bind(this));
     this.datafileManager.on('update', this.__onDatafileManagerUpdate.bind(this));
   } else if (this.__configObj) {
     this.__readyPromise = Promise.resolve({

@@ -15,11 +15,11 @@
  */
 /// <reference types="jest" />
 
-jest.mock('@optimizely/js-sdk-utils', () => ({
+jest.mock('@opendoor/optimizely-js-sdk-utils', () => ({
   __esModule: true,
   generateUUID: jest.fn(),
   getTimestamp: jest.fn(),
-  objectValues: jest.requireActual('@optimizely/js-sdk-utils').objectValues,
+  objectValues: jest.requireActual('@opendoor/optimizely-js-sdk-utils').objectValues,
 }))
 
 import {
@@ -30,7 +30,7 @@ import {
 import { EventDispatcher, EventV1Request } from '../src/eventDispatcher'
 import { EventV1 } from '../src/v1/buildEventV1'
 import { PendingEventsStore, LocalStorageStore } from '../src/pendingEventsStore'
-import { generateUUID, getTimestamp } from '@optimizely/js-sdk-utils'
+import { generateUUID, getTimestamp } from '@opendoor/optimizely-js-sdk-utils'
 
 describe('LocalStoragePendingEventsDispatcher', () => {
   let originalEventDispatcher: EventDispatcher

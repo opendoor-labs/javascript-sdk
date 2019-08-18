@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var logging = require('@optimizely/js-sdk-logging');
+var logging = require('@opendoor/optimizely-js-sdk-logging');
 
 var attributesValidator = require('../../utils/attributes_validator');
 var fns = require('../../utils/fns');

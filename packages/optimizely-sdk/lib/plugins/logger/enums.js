@@ -13,4 +13,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-exports.LOG_LEVEL = require('@optimizely/js-sdk-logging').LogLevel;
+exports.LOG_LEVEL = require('@opendoor/optimizely-js-sdk-logging').LogLevel;

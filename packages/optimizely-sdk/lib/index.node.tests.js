@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var logging = require('@optimizely/js-sdk-logging');
+var logging = require('@opendoor/optimizely-js-sdk-logging');
 var configValidator = require('./utils/config_validator');
 var enums = require('./utils/enums');
 var loggerPlugin = require('./plugins/logger');
 var Optimizely = require('./optimizely');
 var optimizelyFactory = require('./index.node');
 var testData = require('./tests/test_data');
-var eventProcessor = require('@optimizely/js-sdk-event-processor');
+var eventProcessor = require('@opendoor/optimizely-js-sdk-event-processor');
 
 var chai = require('chai');
 var assert = chai.assert;
