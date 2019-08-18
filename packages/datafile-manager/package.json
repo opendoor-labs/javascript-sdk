@@ -1,6 +1,6 @@
 {
   "name": "@opendoor/optimizely-js-sdk-datafile-manager",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Optimizely Full Stack Datafile Manager",
   "license": "Apache-2.0",
   "engines": {
@@ -35,7 +35,7 @@
     "typescript": "^3.3.3333"
   },
   "dependencies": {
-    "@opendoor/optimizely-js-sdk-logging": "^0.1.0",
+    "@opendoor/optimizely-js-sdk-logging": "^0.1.1",
     "@opendoor/optimizely-js-sdk-utils": "^0.1.0"
   },
   "scripts": {
