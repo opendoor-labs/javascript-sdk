@@ -37,7 +37,7 @@
     "@opendoor/optimizely-js-sdk-logging": "^0.1.1",
     "@opendoor/optimizely-js-sdk-utils": "^0.2.1",
     "json-schema": "^0.2.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "murmurhash": "0.0.2",
     "promise-polyfill": "8.1.0",
     "uuid": "^3.3.2"
